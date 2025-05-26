@@ -1,0 +1,228 @@
+// alpha/v4/crowdspawnerui.dsa
+
+var CrowdSpawnerDialog = new DzDialog();
+CrowdSpawnerDialog.caption = "Crowd Spawner";
+CrowdSpawnerDialog.setFixedSize(1000, 1000);
+
+// ------------------------------
+// Required Options (Left Column)
+// ------------------------------
+
+var reqDivider = new DzLabel(CrowdSpawnerDialog);
+reqDivider.text = "Required Options";
+reqDivider.setGeometry(150, 10, 200, 20);
+
+var lblInstanceName = new DzLabel(CrowdSpawnerDialog);
+lblInstanceName.text = "Spawned Instance Name:";
+lblInstanceName.setGeometry(10, 40, 200, 20);
+
+var inputInstanceName = new DzLineEdit(CrowdSpawnerDialog);
+inputInstanceName.text = "CrowdMember";
+inputInstanceName.setGeometry(250, 40, 220, 20);
+
+var descInstanceName = new DzLabel(CrowdSpawnerDialog);
+descInstanceName.text = "This name will be used for each of the spawned character instances. Expect names like 'CrowdMember', 'CrowdMember (2)', etc.";
+descInstanceName.setGeometry(10, 60, 460, 30);
+descInstanceName.wordWrap = true;
+
+var lblPrefix = new DzLabel(CrowdSpawnerDialog);
+lblPrefix.text = "Prefix:";
+lblPrefix.setGeometry(10, 100, 200, 20);
+
+var inputPrefix = new DzLineEdit(CrowdSpawnerDialog);
+inputPrefix.text = "CrowdFigure_";
+inputPrefix.setGeometry(250, 100, 220, 20);
+
+var descPrefix = new DzLabel(CrowdSpawnerDialog);
+descPrefix.text = "Used to identify which scene subset figures to import. Example: 'CrowdFigure_CrowdMember-variant-suffix' (prefix is 'CrowdFigure_').";
+descPrefix.setGeometry(10, 120, 460, 30);
+descPrefix.wordWrap = true;
+
+var lblMarkerPrefix = new DzLabel(CrowdSpawnerDialog);
+lblMarkerPrefix.text = "Marker Prefix:";
+lblMarkerPrefix.setGeometry(10, 160, 200, 20);
+
+var inputMarkerPrefix = new DzLineEdit(CrowdSpawnerDialog);
+inputMarkerPrefix.text = "CrowdMarker_";
+inputMarkerPrefix.setGeometry(250, 160, 220, 20);
+
+var descMarkerPrefix = new DzLabel(CrowdSpawnerDialog);
+descMarkerPrefix.text = "Prefix for marker objects (like cubes or cylinders). Used to determine where to place crowd members. Example: 'CrowdMarker_seat1'.";
+descMarkerPrefix.setGeometry(10, 180, 460, 30);
+descMarkerPrefix.wordWrap = true;
+
+var lblNullParent = new DzLabel(CrowdSpawnerDialog);
+lblNullParent.text = "Null Parent Name:";
+lblNullParent.setGeometry(10, 220, 200, 20);
+
+var inputNullParent = new DzLineEdit(CrowdSpawnerDialog);
+inputNullParent.text = "Crowd";
+inputNullParent.setGeometry(250, 220, 220, 20);
+
+var descNullParent = new DzLabel(CrowdSpawnerDialog);
+descNullParent.text = "Name of the null object to which all spawned members will be parented.";
+descNullParent.setGeometry(10, 240, 460, 30);
+descNullParent.wordWrap = true;
+
+// ------------------------------
+// Optional Options (Left Column)
+// ------------------------------
+
+var optDivider = new DzLabel(CrowdSpawnerDialog);
+optDivider.text = "Optional Options";
+optDivider.setGeometry(150, 280, 200, 20);
+
+var chkUseVariant = new DzCheckBox(CrowdSpawnerDialog);
+chkUseVariant.text = "Use Variant";
+chkUseVariant.checked = false;
+chkUseVariant.setGeometry(10, 310, 200, 20);
+
+var descUseVariant = new DzLabel(CrowdSpawnerDialog);
+descUseVariant.text = "Only use figures with both the prefix and a '-variant' string in their name. Example: 'CrowdFigure_CrowdMember-variant-suffix'.";
+descUseVariant.setGeometry(10, 330, 460, 30);
+descUseVariant.wordWrap = true;
+
+var lblVariantString = new DzLabel(CrowdSpawnerDialog);
+lblVariantString.text = "Variant String:";
+lblVariantString.setGeometry(10, 370, 200, 20);
+
+var inputVariantString = new DzLineEdit(CrowdSpawnerDialog);
+inputVariantString.text = "";
+inputVariantString.setGeometry(250, 370, 220, 20);
+
+var descVariantString = new DzLabel(CrowdSpawnerDialog);
+descVariantString.text = "Specify the '-variant' portion of the figure name to match. Example: 'CrowdFigure_CrowdMember-variant-suffix'.";
+descVariantString.setGeometry(10, 390, 460, 30);
+descVariantString.wordWrap = true;
+
+var chkUseSuffix = new DzCheckBox(CrowdSpawnerDialog);
+chkUseSuffix.text = "Use Suffix";
+chkUseSuffix.checked = false;
+chkUseSuffix.setGeometry(10, 430, 200, 20);
+
+var descUseSuffix = new DzLabel(CrowdSpawnerDialog);
+descUseSuffix.text = "Only use figures with the prefix, optional variant, and a '-suffix' string in their name. Example: 'CrowdFigure_CrowdMember-variant-suffix'.";
+descUseSuffix.setGeometry(10, 450, 460, 30);
+descUseSuffix.wordWrap = true;
+
+var lblSuffixString = new DzLabel(CrowdSpawnerDialog);
+lblSuffixString.text = "Suffix String:";
+lblSuffixString.setGeometry(10, 490, 200, 20);
+
+var inputSuffixString = new DzLineEdit(CrowdSpawnerDialog);
+inputSuffixString.text = "";
+inputSuffixString.setGeometry(250, 490, 220, 20);
+
+var descSuffixString = new DzLabel(CrowdSpawnerDialog);
+descSuffixString.text = "Specify the '-suffix' portion of the figure name to match. Example: 'CrowdFigure_CrowdMember-variant-suffix'.";
+descSuffixString.setGeometry(10, 510, 460, 30);
+descSuffixString.wordWrap = true;
+
+var chkOverallScale = new DzCheckBox(CrowdSpawnerDialog);
+chkOverallScale.text = "Use Overall Scale Offset";
+chkOverallScale.checked = false;
+chkOverallScale.setGeometry(10, 550, 200, 20);
+
+var descOverallScale = new DzLabel(CrowdSpawnerDialog);
+descOverallScale.text = "Use this to offset the scale of the imported character maintaining the aspect ratios of XYZ scaling.";
+descOverallScale.setGeometry(10, 570, 460, 30);
+descOverallScale.wordWrap = true;
+
+var lblScaleOffset = new DzLabel(CrowdSpawnerDialog);
+lblScaleOffset.text = "Overall Scale Offset (%):";
+lblScaleOffset.setGeometry(10, 610, 200, 20);
+
+var sldScaleOffset = new DzIntSlider(CrowdSpawnerDialog);
+sldScaleOffset.setGeometry(250, 610, 220, 20);
+sldScaleOffset.min = -100;
+sldScaleOffset.max = 100;
+sldScaleOffset.value = 0;
+sldScaleOffset.clamped = true;
+
+var descScaleOffset = new DzLabel(CrowdSpawnerDialog);
+descScaleOffset.text = "If Overall scale offset has been enabled, this specifies the amount of that scale.";
+descScaleOffset.setGeometry(10, 630, 460, 30);
+descScaleOffset.wordWrap = true;
+
+var chkRandomScale = new DzCheckBox(CrowdSpawnerDialog);
+chkRandomScale.text = "Randomize Overall Scale";
+chkRandomScale.checked = false;
+chkRandomScale.setGeometry(10, 670, 200, 20);
+
+var descRandomScale = new DzLabel(CrowdSpawnerDialog);
+descRandomScale.text = "If you'd like to introduce some size variances between each imported crowd member enable this.";
+descRandomScale.setGeometry(10, 690, 460, 30);
+descRandomScale.wordWrap = true;
+
+var lblRandomVariance = new DzLabel(CrowdSpawnerDialog);
+lblRandomVariance.text = "Random Scale Variance (%):";
+lblRandomVariance.setGeometry(10, 730, 200, 20);
+
+var sldRandomVariance = new DzIntSlider(CrowdSpawnerDialog);
+sldRandomVariance.setGeometry(250, 730, 220, 20);
+sldRandomVariance.min = -100;
+sldRandomVariance.max = 100;
+sldRandomVariance.value = 0;
+sldRandomVariance.clamped = true;
+
+var descRandomVariance = new DzLabel(CrowdSpawnerDialog);
+descRandomVariance.text = "Adjust how much percentage of scaling variance the script will use when randomly choosing scale.";
+descRandomVariance.setGeometry(10, 750, 460, 30);
+descRandomVariance.wordWrap = true;
+
+// ------------------------------
+// Advanced Options (Right Column)
+// ------------------------------
+
+var advDivider = new DzLabel(CrowdSpawnerDialog);
+advDivider.text = "Advanced Options";
+advDivider.setGeometry(660, 10, 200, 20);
+
+var offsetFields = [
+    ["X Position Offset", -200, 200, 40],
+    ["Y Position Offset", -200, 200, 100],
+    ["Z Position Offset", -200, 200, 160],
+    ["X Rotation Offset", -200, 200, 220],
+    ["Y Rotation Offset", -200, 200, 280],
+    ["Z Rotation Offset", -200, 200, 340],
+    ["X Scale Offset (%)", -100, 100, 400],
+    ["Y Scale Offset (%)", -100, 100, 460],
+    ["Z Scale Offset (%)", -100, 100, 520]
+];
+
+for (var i = 0; i < offsetFields.length; i++) {
+    var label = new DzLabel(CrowdSpawnerDialog);
+    label.text = offsetFields[i][0];
+    label.setGeometry(520, offsetFields[i][3], 200, 20);
+
+    var slider = new DzIntSlider(CrowdSpawnerDialog);
+    slider.setGeometry(760, offsetFields[i][3], 200, 20);
+    slider.min = offsetFields[i][1];
+    slider.max = offsetFields[i][2];
+    slider.value = 0;
+    slider.clamped = true;
+
+    var desc = new DzLabel(CrowdSpawnerDialog);
+    desc.text = "Adjust " + offsetFields[i][0].toLowerCase() + " relative to marker or scale.";
+    desc.setGeometry(520, offsetFields[i][3] + 20, 440, 30);
+    desc.wordWrap = true;
+}
+
+// ------------------------------
+// Custom Bottom Buttons
+// ------------------------------
+
+var btnAccept = new DzPushButton(CrowdSpawnerDialog);
+btnAccept.text = "Accept";
+btnAccept.setGeometry(400, 950, 80, 30);
+
+var btnCancel = new DzPushButton(CrowdSpawnerDialog);
+btnCancel.text = "Cancel";
+btnCancel.setGeometry(520, 950, 80, 30);
+btnCancel.clicked.connect(function() {
+    CrowdSpawnerDialog.close();
+});
+
+CrowdSpawnerDialog.setAcceptButton(btnAccept);
+
+CrowdSpawnerDialog.exec();
