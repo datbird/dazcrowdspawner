@@ -1,159 +1,167 @@
-# DAZ Crowd Spawner Design Guide
+# 🧭 Crowd Spawner Design Guide (Updated)
 
-This design guide defines the core principles, rules, and constraints for the DAZ Crowd Spawner system. It serves as the blueprint for UI construction, spawn logic, versioning, and assistant behavior.
+## Overview
 
----
-
-## Purpose
-
-The DAZ Crowd Spawner is intended to populate 3D scenes with randomized, reusable figures using DAZ Studio 4.24. It must be reliable, controllable, and predictable across scenes and projects.
+This guide defines the UI and behavior for the DAZ Crowd Spawner system, ensuring consistency, usability, and adherence to DAZ Studio scripting standards. It incorporates user-defined specifications and maintains existing design principles.
 
 ---
 
-## Design Rules
+## 📐 UI Layout & Structure
 
-### UI Rules
-
-* Must use `DzBasicDialog` only.
-* Use **absolute geometry placement** — no layout managers.
-* All controls must match those defined in `crowdspawnerui.dsa`.
-* **No DzSlider** — only `DzIntSlider` for numeric ranges.
-* Use built-in Accept/Cancel buttons, no custom dialog controls.
-
-### UI Sections
-
-Include the following visual dividers:
-
-* `Required Options`
-* `Optional Options`
-* `Advanced Options`
-
-Labels must use asterisks (`**`) to simulate bolding:
-
-```
-**Figure Group Node:**
-```
+- **Dialog Type**: `DzBasicDialog`
+- **Fixed Size**: Width: 500px; Height: 620px (adjustable as needed)
+- **Layout Method**: All widgets are positioned using `.setGeometry(x, y, width, height)`
+- **Widget Types**:
+  - `DzLabel` for text labels and section headers
+  - `DzLineEdit` for text input fields
+  - `DzCheckBox` for boolean options
+  - `DzIntSlider` for numerical input sliders
 
 ---
 
-## Directives and Constraints
+## 🧩 Section Dividers
 
-### Required Options
+Sections are visually separated using centered `DzLabel` elements with bold text:
 
-1. **Spawned instance name?** (default: `CrowdMember`)
-   *This name will be be used to for each of the spawned character instaces. So expect to see each instance to have a name such as 'CrowdMember', 'Crowdmember (2)' etc etc.*
+- **Required Options**
+- **Optional Options**
+- **Advanced Options**
 
-2. **Prefix?** (default: `CrowdFigure_`)
-   *Each of the figures contained in your scene subset are potentially used to import and spawn into the scene. In order for the script to decide which ones to import, it looks at the figure parent object and determines if it's a valid candidate to import based off of the specified prefix. eg 'CrowdFigure\_CrowdMember-variant-suffix' with **CrowdFigure\_** being bold.*
-
-3. **Marker prefix?** (default: `CrowdMarker_`)
-   *You are to place objects of your choosing (such as a primitive cube, cylinder, etc) to mark where all you would like crowd members to be spawned. Each of these 'markers' are to have a prefix in their label such as 'CrowdMarker\_seat1' so that the script can identify where to put the newly spawned crowd members.*
-
-4. **Null Parent Name?** (default: `Crowd`)
-   *This is the name of the null object that this script will parent all of the spawned crowd members to.*
-
-### Optional Options
-
-5. **Use variant?** (checkbox, default: false)
-   *Enables filtering of characters by a "variant" string in addition to the prefix. eg 'CrowdFigure\_CrowdMember-**variant**-suffix'.*
-
-6. **Variant string** (string, default: empty)
-   *If variant is enabled, this string is used to match variants. eg 'CrowdFigure\_CrowdMember-**variant**-suffix'.*
-
-7. **Use suffix?** (checkbox, default: false)
-   *Enables filtering by a "suffix" in addition to prefix and variant. eg 'CrowdFigure\_CrowdMember-variant-**suffix**'.*
-
-8. **Suffix string** (string, default: empty)
-   *Used when suffix is enabled. eg 'CrowdFigure\_CrowdMember-variant-**suffix**'.*
-
-9. **Overall scale offset?** (checkbox, default: false)
-   *Maintains aspect ratio of XYZ scaling for imported character.*
-
-10. **Overall scale offset percentage** (`DzIntSlider`, range: -100% to 100%, default: 0%)
-    *Adjusts the imported character's overall scale.*
-
-11. **Randomize overall scale?** (checkbox, default: false)
-    *Introduces size variance among crowd members.*
-
-12. **Random scale variance percentage** (`DzIntSlider`, range: -100% to 100%, default: 0%)
-    *Specifies max percentage range to scale randomly per character.*
-
-### Advanced Options
-
-13. **X position coordinate offset** (`DzIntSlider`, -200 to 200, default: 0)
-    *X offset relative to marker.*
-
-14. **Y position coordinate offset** (`DzIntSlider`, -200 to 200, default: 0)
-    *Y offset relative to marker.*
-
-15. **Z position coordinate offset** (`DzIntSlider`, -200 to 200, default: 0)
-    *Z offset relative to marker.*
-
-16. **X rotation offset** (`DzIntSlider`, -200 to 200, default: 0)
-    *X rotation offset relative to marker.*
-
-17. **Y rotation offset** (`DzIntSlider`, -200 to 200, default: 0)
-    *Y rotation offset relative to marker.*
-
-18. **Z rotation offset** (`DzIntSlider`, -200 to 200, default: 0)
-    *Z rotation offset relative to marker.*
-
-19. **X scale offset** (`DzIntSlider`, -100% to 100%, default: 0)
-    *X scale offset relative to imported scale and previous scaling.*
-
-20. **Y scale offset** (`DzIntSlider`, -100% to 100%, default: 0)
-    *Y scale offset relative to imported scale and previous scaling.*
-
-21. **Z scale offset** (`DzIntSlider`, -100% to 100%, default: 0)
-    *Z scale offset relative to imported scale and previous scaling.*
+These dividers help organize the UI into logical groups.
 
 ---
 
-## Logic Rules
+## 🛠️ Required Options
 
-* Each marker must spawn **one** randomly selected figure from the provided pool.
-* Figures must be instanced as children of the defined parent node.
-* Random Y rotation and scale variance are optional.
-* Use a seed value to ensure deterministic output if provided.
-* Spawner must never alter existing scene data not under its assigned parent node.
+1. **Spawned Instance Name**
+   - **Type**: `DzLineEdit`
+   - **Default**: `"CrowdMember"`
+   - **Description**: This name will be used for each of the spawned character instances. Expect to see names like 'CrowdMember', 'CrowdMember (2)', etc.
 
----
+2. **Prefix**
+   - **Type**: `DzLineEdit`
+   - **Default**: `"CrowdFigure_"`
+   - **Description**: Each figure in your scene subset is potentially used for spawning. The script identifies valid candidates based on this prefix. For example, 'CrowdFigure_CrowdMember-variant-suffix' with **CrowdFigure_** as the prefix.
 
-## File Structure
+3. **Marker Prefix**
+   - **Type**: `DzLineEdit`
+   - **Default**: `"CrowdMarker_"`
+   - **Description**: Place objects (e.g., cubes, cylinders) as markers where you want crowd members to spawn. Each marker should have a label starting with **CrowdMarker_**, such as 'CrowdMarker_seat1'.
 
-```
-dazcrowdspawner/
-├── alpha/v1/
-│   ├── crowdspawnerui.dsa
-│   └── crowdspawnerlogic.dsa
-├── release/v1/
-│   ├── crowdspawnerui.dsa
-│   └── crowdspawnerlogic.dsa
-├── crowdspawnerdesignguide.md
-└── README.md
-```
+4. **Null Parent Name**
+   - **Type**: `DzLineEdit`
+   - **Default**: `"Crowd"`
+   - **Description**: Name of the null object to which all spawned crowd members will be parented.
 
 ---
 
-## Assistant Behavior
+## ⚙️ Optional Options
 
-When referencing or regenerating scripts:
+5. **Use Variant**
+   - **Type**: `DzCheckBox`
+   - **Default**: `false`
+   - **Description**: If enabled, only figures with both the specified prefix and variant string in their name (e.g., 'CrowdFigure_CrowdMember-**variant**-suffix') will be used.
 
-* Do **not** rewrite or improve locked files unless explicitly instructed.
-* Always pull scripts from the canonical GitHub path if given.
-* Use current session file versions unless otherwise specified.
+6. **Variant String**
+   - **Type**: `DzLineEdit`
+   - **Default**: `""` (empty)
+   - **Description**: Specify the variant string to match in figure names (e.g., 'CrowdFigure_CrowdMember-**variant**-suffix').
+
+7. **Use Suffix**
+   - **Type**: `DzCheckBox`
+   - **Default**: `false`
+   - **Description**: If enabled, only figures with the specified prefix, variant (if used), and suffix string in their name (e.g., 'CrowdFigure_CrowdMember-variant-**suffix**') will be used.
+
+8. **Suffix String**
+   - **Type**: `DzLineEdit`
+   - **Default**: `""` (empty)
+   - **Description**: Specify the suffix string to match in figure names (e.g., 'CrowdFigure_CrowdMember-variant-**suffix**').
+
+9. **Overall Scale Offset**
+   - **Type**: `DzCheckBox`
+   - **Default**: `false`
+   - **Description**: Enables uniform scaling of imported characters, maintaining aspect ratios across X, Y, and Z axes.
+
+10. **Overall Scale Offset Percentage**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-100%` to `100%`
+    - **Default**: `0%`
+    - **Description**: Specifies the percentage to uniformly scale imported characters if Overall Scale Offset is enabled.
+
+11. **Randomize Overall Scale**
+    - **Type**: `DzCheckBox`
+    - **Default**: `false`
+    - **Description**: Introduces size variance among imported crowd members.
+
+12. **Randomize Overall Scale Variance Percentage**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-100%` to `100%`
+    - **Default**: `0%`
+    - **Description**: Specifies the range of scale variance applied randomly to each crowd member if Randomize Overall Scale is enabled.
 
 ---
 
-## Versioning
+## 🧪 Advanced Options
 
-* All in-development scripts live in `/alpha`.
-* Experimental or review-ready scripts go to `/beta`.
-* Final locked scripts go to `/release`.
-* Version folders (`v1`, `v2`, etc.) must not be overwritten without explicit version bump.
+13. **X Position Coordinate Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-200` to `200`
+    - **Default**: `0`
+    - **Description**: Adds an X-axis offset relative to the marker position.
+
+14. **Y Position Coordinate Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-200` to `200`
+    - **Default**: `0`
+    - **Description**: Adds a Y-axis offset relative to the marker position.
+
+15. **Z Position Coordinate Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-200` to `200`
+    - **Default**: `0`
+    - **Description**: Adds a Z-axis offset relative to the marker position.
+
+16. **X Rotation Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-200` to `200`
+    - **Default**: `0`
+    - **Description**: Adds an X-axis rotation offset relative to the marker orientation.
+
+17. **Y Rotation Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-200` to `200`
+    - **Default**: `0`
+    - **Description**: Adds a Y-axis rotation offset relative to the marker orientation.
+
+18. **Z Rotation Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-200` to `200`
+    - **Default**: `0`
+    - **Description**: Adds a Z-axis rotation offset relative to the marker orientation.
+
+19. **X Scale Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-100%` to `100%`
+    - **Default**: `0%`
+    - **Description**: Adds an X-axis scale offset relative to the imported scale and any previously specified overall and randomized scale.
+
+20. **Y Scale Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-100%` to `100%`
+    - **Default**: `0%`
+    - **Description**: Adds a Y-axis scale offset relative to the imported scale and any previously specified overall and randomized scale.
+
+21. **Z Scale Offset**
+    - **Type**: `DzIntSlider`
+    - **Range**: `-100%` to `100%`
+    - **Default**: `0%`
+    - **Description**: Adds a Z-axis scale offset relative to the imported scale and any previously specified overall and randomized scale.
 
 ---
 
-## Notes
+## 🧭 Additional Guidelines
 
-This design guide is versioned and tracked like any other canonical file. All assistants and users must comply with its rules to ensure system integrity.
+- **Tooltips**: Each field should have a tooltip displaying its description for user guidance.
+- **Validation**: Input fields should include validation to ensure correct data types and ranges.
+- **Defaults**: All fields should be initialized with their specified default values.
+- **Layout Consistency**: Maintain consistent spacing and alignment across all UI elements for a clean and user-friendly interface.
