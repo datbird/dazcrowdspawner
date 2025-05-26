@@ -1,167 +1,106 @@
-# 🧭 Crowd Spawner Design Guide (Updated)
+# Crowd Spawner UI Design Guide (v5)
 
-## Overview
+## File Structure
 
-This guide defines the UI and behavior for the DAZ Crowd Spawner system, ensuring consistency, usability, and adherence to DAZ Studio scripting standards. It incorporates user-defined specifications and maintains existing design principles.
+* **UI Script**: `/alpha/v5/crowdspawnerui.dsa`
+* **Logic Script**: (still using v1 for now)
 
----
+## General Layout
 
-## 📐 UI Layout & Structure
+* **Dialog Type**: `DzDialog`
+* **Fixed Dimensions**: `1000 x 552`
+* **Grid Layout**: Two-column arrangement
+* **Visual Divider**: Vertical ASCII divider (`||`) between columns
 
-- **Dialog Type**: `DzBasicDialog`
-- **Fixed Size**: Width: 500px; Height: 620px (adjustable as needed)
-- **Layout Method**: All widgets are positioned using `.setGeometry(x, y, width, height)`
-- **Widget Types**:
-  - `DzLabel` for text labels and section headers
-  - `DzLineEdit` for text input fields
-  - `DzCheckBox` for boolean options
-  - `DzIntSlider` for numerical input sliders
+## Section Organization
 
----
+* **Left Column**:
 
-## 🧩 Section Dividers
+  * Required Options (Top)
+  * Optional Options (Middle)
+* **Right Column**:
 
-Sections are visually separated using centered `DzLabel` elements with bold text:
+  * Advanced Options
 
-- **Required Options**
-- **Optional Options**
-- **Advanced Options**
+### Section Headers
 
-These dividers help organize the UI into logical groups.
+* Section headers use bold ASCII divider labels:
 
----
+  * `====== Required Options ======`
+  * `====== Optional Options ======`
+  * `====== Advanced Options ======`
 
-## 🛠️ Required Options
+## Field Types
 
-1. **Spawned Instance Name**
-   - **Type**: `DzLineEdit`
-   - **Default**: `"CrowdMember"`
-   - **Description**: This name will be used for each of the spawned character instances. Expect to see names like 'CrowdMember', 'CrowdMember (2)', etc.
+* **Labels**: `DzLabel`
+* **Text Inputs**: `DzLineEdit`
+* **Check Boxes**: `DzCheckBox`
+* **Sliders**: `DzIntSlider`
 
-2. **Prefix**
-   - **Type**: `DzLineEdit`
-   - **Default**: `"CrowdFigure_"`
-   - **Description**: Each figure in your scene subset is potentially used for spawning. The script identifies valid candidates based on this prefix. For example, 'CrowdFigure_CrowdMember-variant-suffix' with **CrowdFigure_** as the prefix.
+## Field Formatting Rules
 
-3. **Marker Prefix**
-   - **Type**: `DzLineEdit`
-   - **Default**: `"CrowdMarker_"`
-   - **Description**: Place objects (e.g., cubes, cylinders) as markers where you want crowd members to spawn. Each marker should have a label starting with **CrowdMarker_**, such as 'CrowdMarker_seat1'.
+* Fields placed with fixed `.setGeometry(x, y, w, h)` values
+* Descriptions **replaced** with `toolTip` for each interactive field
+* Tooltips mirror original descriptions as closely as possible
+* Labels/inputs grouped in pairs (label above, input below)
 
-4. **Null Parent Name**
-   - **Type**: `DzLineEdit`
-   - **Default**: `"Crowd"`
-   - **Description**: Name of the null object to which all spawned crowd members will be parented.
+## Validation Behavior
 
----
+* **Required Fields**:
 
-## ⚙️ Optional Options
+  * Spawned Instance Name
+  * Prefix
+  * Marker Prefix
+  * Null Parent Name
+* **Validation Logic**:
 
-5. **Use Variant**
-   - **Type**: `DzCheckBox`
-   - **Default**: `false`
-   - **Description**: If enabled, only figures with both the specified prefix and variant string in their name (e.g., 'CrowdFigure_CrowdMember-**variant**-suffix') will be used.
+  * If any required field is empty, **Accept button is disabled**
+  * Validation triggers on `textChanged` signals from these fields
+* **No red border** or visual warning — just disables Accept
 
-6. **Variant String**
-   - **Type**: `DzLineEdit`
-   - **Default**: `""` (empty)
-   - **Description**: Specify the variant string to match in figure names (e.g., 'CrowdFigure_CrowdMember-**variant**-suffix').
+### Code Sample: Validation Logic
 
-7. **Use Suffix**
-   - **Type**: `DzCheckBox`
-   - **Default**: `false`
-   - **Description**: If enabled, only figures with the specified prefix, variant (if used), and suffix string in their name (e.g., 'CrowdFigure_CrowdMember-variant-**suffix**') will be used.
+```javascript
+function validateForm() {
+    var filled = inputInstanceName.text.trim() !== "" &&
+                 inputPrefix.text.trim() !== "" &&
+                 inputMarkerPrefix.text.trim() !== "" &&
+                 inputNullParent.text.trim() !== "";
+    btnAccept.enabled = filled;
+}
 
-8. **Suffix String**
-   - **Type**: `DzLineEdit`
-   - **Default**: `""` (empty)
-   - **Description**: Specify the suffix string to match in figure names (e.g., 'CrowdFigure_CrowdMember-variant-**suffix**').
+inputInstanceName.textChanged.connect(validateForm);
+inputPrefix.textChanged.connect(validateForm);
+inputMarkerPrefix.textChanged.connect(validateForm);
+inputNullParent.textChanged.connect(validateForm);
 
-9. **Overall Scale Offset**
-   - **Type**: `DzCheckBox`
-   - **Default**: `false`
-   - **Description**: Enables uniform scaling of imported characters, maintaining aspect ratios across X, Y, and Z axes.
+validateForm();
+```
 
-10. **Overall Scale Offset Percentage**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-100%` to `100%`
-    - **Default**: `0%`
-    - **Description**: Specifies the percentage to uniformly scale imported characters if Overall Scale Offset is enabled.
+## Buttons
 
-11. **Randomize Overall Scale**
-    - **Type**: `DzCheckBox`
-    - **Default**: `false`
-    - **Description**: Introduces size variance among imported crowd members.
+* **Accept**:
 
-12. **Randomize Overall Scale Variance Percentage**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-100%` to `100%`
-    - **Default**: `0%`
-    - **Description**: Specifies the range of scale variance applied randomly to each crowd member if Randomize Overall Scale is enabled.
+  * Created with `DzPushButton`
+  * Accept behavior handled via `CrowdSpawnerDialog.setAcceptButton(btnAccept);`
+  * No custom handler; closure managed by DAZ after validation passes
+* **Cancel**:
 
----
+  * Triggers `CrowdSpawnerDialog.close();`
 
-## 🧪 Advanced Options
+## Style & Convention
 
-13. **X Position Coordinate Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-200` to `200`
-    - **Default**: `0`
-    - **Description**: Adds an X-axis offset relative to the marker position.
+* Field order and section grouping must follow this guide
+* All tooltips must reflect the latest specification content
+* No experimental DAZ UI APIs or alternate widget types may be used
 
-14. **Y Position Coordinate Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-200` to `200`
-    - **Default**: `0`
-    - **Description**: Adds a Y-axis offset relative to the marker position.
+## Explicitly Out of Scope (v5)
 
-15. **Z Position Coordinate Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-200` to `200`
-    - **Default**: `0`
-    - **Description**: Adds a Z-axis offset relative to the marker position.
-
-16. **X Rotation Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-200` to `200`
-    - **Default**: `0`
-    - **Description**: Adds an X-axis rotation offset relative to the marker orientation.
-
-17. **Y Rotation Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-200` to `200`
-    - **Default**: `0`
-    - **Description**: Adds a Y-axis rotation offset relative to the marker orientation.
-
-18. **Z Rotation Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-200` to `200`
-    - **Default**: `0`
-    - **Description**: Adds a Z-axis rotation offset relative to the marker orientation.
-
-19. **X Scale Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-100%` to `100%`
-    - **Default**: `0%`
-    - **Description**: Adds an X-axis scale offset relative to the imported scale and any previously specified overall and randomized scale.
-
-20. **Y Scale Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-100%` to `100%`
-    - **Default**: `0%`
-    - **Description**: Adds a Y-axis scale offset relative to the imported scale and any previously specified overall and randomized scale.
-
-21. **Z Scale Offset**
-    - **Type**: `DzIntSlider`
-    - **Range**: `-100%` to `100%`
-    - **Default**: `0%`
-    - **Description**: Adds a Z-axis scale offset relative to the imported scale and any previously specified overall and randomized scale.
+* Preset save/load system
+* In-place red-border visual validation
+* Any Qt or stylesheet-based formatting
+* External image use for dividers or layout
 
 ---
 
-## 🧭 Additional Guidelines
-
-- **Tooltips**: Each field should have a tooltip displaying its description for user guidance.
-- **Validation**: Input fields should include validation to ensure correct data types and ranges.
-- **Defaults**: All fields should be initialized with their specified default values.
-- **Layout Consistency**: Maintain consistent spacing and alignment across all UI elements for a clean and user-friendly interface.
+This guide defines the authoritative specification for all UI work under v5. All script updates must strictly comply with this design structure.
