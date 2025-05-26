@@ -1,8 +1,8 @@
-# Golden Crowd Spawner
+# DAZ Crowd Spawner
 
-The Golden Crowd Spawner is a custom DAZ Studio 4.24 scripting system designed for procedurally populating crowd scenes using precise marker/figure logic, a clean locked UI, and reproducible randomness.
+The DAZ Crowd Spawner is a custom DAZ Studio 4.24 scripting system designed for procedurally populating crowd scenes using precise marker/figure logic, a clean locked UI, and reproducible randomness.
 
-This repository serves as the **single source of truth** for all canonical components of the Golden Crowd Spawner system.
+This repository serves as the **single source of truth** for all canonical components of the DAZ Crowd Spawner system.
 
 ---
 
@@ -22,19 +22,19 @@ This project provides artists and technical directors with a consistent, non-des
 ## Canonical Files
 The following files represent the locked system definitions:
 
-- `golden_config_ui.dsa` – The exact dialog script that collects spawn configuration from the user.
-- `golden_spawner_logic.dsa` – The logic that performs marker-to-figure placement, randomization, and instancing.
-- `golden_crowd_design_guide.md` – The full specification governing the UI layout, behavioral expectations, and design rules.
+- `crowdspawnerui.dsa` – The exact dialog script that collects spawn configuration from the user.
+- `crowdspawnerlogic.dsa` – The logic that performs marker-to-figure placement, randomization, and instancing.
+- `crowdspawnerdesignguide.md` – The full specification governing the UI layout, behavioral expectations, and design rules.
 
 All changes to these files must be intentional and documented.
 
 ---
 
 ## Usage
-To use the Golden Crowd Spawner:
-1. Open `golden_config_ui.dsa` in DAZ Studio's script editor.
+To use the DAZ Crowd Spawner:
+1. Open `crowdspawnerui.dsa` in DAZ Studio's script editor.
 2. Run the script to configure your crowd settings.
-3. Hook the configuration output into `golden_spawner_logic.dsa` for placement.
+3. Hook the configuration output into `crowdspawnerlogic.dsa` for placement.
 
 ---
 
