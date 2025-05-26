@@ -2,5 +2,5 @@
   "canonical": true,
   "used_by": "Golden Crowd Spawner Assistant",
   "description": "This repository contains the locked source files for the Golden Crowd Spawner system used in DAZ Studio 4.24. All references by the assistant must pull from this repository unless explicitly told otherwise.",
-  "url": "https://github.com/yourusername/dazcrowdspawner"
+  "url": "https://github.com/datbird/dazcrowdspawner"
 }
