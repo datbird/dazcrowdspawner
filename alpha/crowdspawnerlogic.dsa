@@ -1,0 +1,123 @@
+// DAZ Studio version 4.24.0.3 filetype DAZ Script
+
+(function () {
+    // ===== CONFIGURATION =====
+
+    var presetPaths = [
+        "C:/Users/datbi/OneDrive/Documents/DAZ 3D/Studio/My Library/Scene Subsets/crowdfemale1.duf"
+    ];
+
+    var seatPrefix = "SeatMarker_";         // Label prefix for seat markers
+    var figureLabelPrefix = "CrowdFigure_"; // Label prefix for top-level character nodes
+    var passengerScaleMin = 95;
+    var passengerScaleMax = 105;
+    var passengerYawMin = -10;
+    var passengerYawMax = 10;
+
+    // ===== FUNCTIONS =====
+
+    function getSeatMarkersByLabel(prefix) {
+        var nodes = Scene.getNodeList();
+        var markers = [];
+
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].getLabel().indexOf(prefix) === 0) {
+                markers.push(nodes[i]);
+            }
+        }
+
+        markers.sort(function (a, b) {
+            return a.getLabel().localeCompare(b.getLabel());
+        });
+
+        return markers;
+    }
+
+    function findCrowdFigureNode(newNodes) {
+        for (var i = 0; i < newNodes.length; i++) {
+            var node = newNodes[i];
+            if (node.getLabel().indexOf(figureLabelPrefix) === 0) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    function loadPresetAndGetFigure(presetPath) {
+        var before = Scene.getNodeList();
+        var beforeSet = {};
+        for (var i = 0; i < before.length; i++) {
+            beforeSet[before[i].getLabel()] = true;
+        }
+
+        var contentMgr = App.getContentMgr();
+        var success = contentMgr.openFile(presetPath);
+        if (!success) {
+            print("❌ Failed to open: " + presetPath);
+            return null;
+        }
+
+        var after = Scene.getNodeList();
+        var newNodes = [];
+        for (var j = 0; j < after.length; j++) {
+            var label = after[j].getLabel();
+            if (!beforeSet[label]) {
+                newNodes.push(after[j]);
+            }
+        }
+
+        if (newNodes.length === 0) {
+            print("❌ No new nodes found.");
+            return null;
+        }
+
+        var figureNode = findCrowdFigureNode(newNodes);
+        if (!figureNode) {
+            print("⚠️ No figure with label prefix '" + figureLabelPrefix + "' found.");
+            return null;
+        }
+
+        return figureNode;
+    }
+
+    // ===== MAIN =====
+
+    var markers = getSeatMarkersByLabel(seatPrefix);
+    if (markers.length === 0) {
+        MessageBox.information("No Seat Markers", "No objects found with label starting with: " + seatPrefix, "OK");
+        return;
+    }
+
+    var placedFigures = [];
+
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        var presetIndex = Math.floor(Math.random() * presetPaths.length);
+        var presetPath = presetPaths[presetIndex];
+
+        // ❌ Removed yaw randomness — identity rotation
+        var rotQuat = new DzQuat();
+
+        var scale = Math.random() * (passengerScaleMax - passengerScaleMin) + passengerScaleMin;
+
+        try {
+            var figureNode = loadPresetAndGetFigure(presetPath);
+            if (figureNode) {
+                figureNode.setWSPos(marker.getWSPos());
+                figureNode.setWSRot(rotQuat);
+                figureNode.scale = scale / 100.0;
+                placedFigures.push(figureNode);
+                print("✅ Moved: " + figureNode.getLabel());
+            }
+        } catch (e) {
+            print("🚨 Error placing character at " + marker.getLabel() + ": " + e.toString());
+        }
+    }
+
+    if (placedFigures.length !== markers.length) {
+        MessageBox.warning("Mismatch", "Loaded " + placedFigures.length + " figures but found " + markers.length + " markers.", "OK");
+    } else {
+        MessageBox.information("Done", "Passenger population complete! (" + markers.length + " processed)", "OK");
+    }
+
+})();
