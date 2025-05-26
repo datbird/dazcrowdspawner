@@ -9,6 +9,11 @@ This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assi
 - Fetch `alpha/v1/crowdspawnerlogic.dsa`
 - Fetch `crowdspawnerdesignguide.md`
 - Fetch `gpt_instructions.md`
+- Fetch alpha/v4/crowdspawnerui.dsa
+- Fetch alpha/v1/crowdspawnerlogic.dsa
+- Fetch crowdspawnerdesignguide.md
+- Fetch gpt_instructions.md
+
 
 ---
 
@@ -22,6 +27,16 @@ This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assi
 ---
 
 ## Session Notes
+
+## Notes
+- `DzDialog` successfully implemented with full field layout
+- All 21 UI fields visible at once (Required, Optional, Advanced)
+- Accept and Cancel buttons functional
+- Layout confirmed in DAZ Studio 4.24 Premier
+- Vertical divider placeholder removed (styleSheet not supported natively)
+- Ready for logic/validation in alpha v5
+
+TODO
 - [ ] Validate implementation of all 21 fields and their descriptions per the design guide
 - [ ] Confirm variant/suffix matching logic functions as described
 - [ ] Ensure all scaling logic uses `DzIntSlider` and is clamped properly
