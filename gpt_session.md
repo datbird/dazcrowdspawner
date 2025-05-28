@@ -1,4 +1,4 @@
-# DAZ Crowd Spawner GPT Session State
+# Session Summary - Crowd Spawner Development (v5 UI Finalized)
 
 This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assistant. Upon loading this file, the assistant should sync with all relevant files and enforce behavior based on the design guide and locked instruction set.
 
@@ -42,3 +42,84 @@ TODO
 - [ ] Ensure all scaling logic uses `DzIntSlider` and is clamped properly
 - [ ] Await next edits to determine when to advance to `beta/v1/`
 - [ ] Encourage saving session state after key updates to retain continuity
+
+
+Current Version Locked: alpha/v5/crowdspawnerui.dsa
+
+Recent Updates:
+
+UI has been finalized for v5
+
+Required fields validated: accept button only activates if fields filled
+
+Removal of static description labels in favor of tooltips
+
+Bold section dividers
+
+Double-pipe visual column divider added
+
+Adjusted UI layout size (now 1000x552)
+
+Final script tested and committed to repo
+
+Decimator Integration Testing:
+
+Decimator script failed using App.getPlugin and Decimator direct reference
+
+Revised approach assumes plugin is active but script still errors out
+
+Decimator not directly scriptable via standard exposed API
+
+Decimation settings best preserved in full scenes or subsets
+
+Crowd Optimization Guidance:
+
+Target ~20k triangle count per character for reasonable real-time performance
+
+Gen3 figures acceptable for background crowds (wardrobe, hair compatibility discussed)
+
+Mesh-based hair significantly increases decimation load
+
+Strand-based hair preferred for performance
+
+Asset Import and Customization:
+
+Morph Loader (Advanced/Pro) for OBJ import as morphs
+
+Custom sliders and actor properties are script-addressable
+
+No direct detection of applied pose files (transforms only)
+
+Smart Content/Asset DB Handling:
+
+Custom Smart Content filters for Gen3 content
+
+Asset-based scripts cannot trivially detect originating products
+
+Subset/scene .duf files used as scripted triggers for logic
+
+Omni Hair Tool Suite:
+
+Toolset provides procedural SBG generation, grooming, decimation-like optimization
+
+Allows more visually acceptable low-poly hair vs. Decimator
+
+Next Development Goals:
+
+Begin scripting logic components for v5 logic processor
+
+Reuse patterns established in v1 logic (avoid Qt libraries, follow stable Dz functions)
+
+Add functional elements for character spawning, marker detection, asset loading
+
+Design Guide Synced:
+
+Design guide updated to reflect new layout, logic behavior, and UI standards
+
+Notes:
+
+Future UI changes will target v6
+
+All decimation testing should isolate hair/wardrobe geometry from figure mesh
+
+Evaluate lightweight figure variants for efficient crowd simulation
