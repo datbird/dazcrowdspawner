@@ -15,7 +15,7 @@ Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
 ---
 
 ## Sync Behavior
-- Treat `alpha/v1/crowdspawnerui.dsa` as the current editable UI script
+- Treat `alpha/v5/crowdspawnerui.dsa` as the current editable UI script
 - Treat `alpha/v1/crowdspawnerlogic.dsa` as the current editable logic script
 - Use `crowdspawnerdesignguide.md` as the definitive source for layout, field order, descriptions, and sectioning
 - Enforce all assistant constraints and behaviors from `gpt_instructions.md`
