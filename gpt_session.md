@@ -17,9 +17,9 @@
 
 
 ## Current Script Version
-Current Version Locked: alpha/v5/crowdspawnerui.dsa
-Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
-Current Version Locked: alpha/v1/SurfaceDazFigtoImportedFig.dsa
+- Current Version Locked: alpha/v5/crowdspawnerui.dsa
+- Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
+- Current Version Locked: alpha/v1/surfaceDazFigtoImportedFig.dsa
 
 
 ## Canonical Files
