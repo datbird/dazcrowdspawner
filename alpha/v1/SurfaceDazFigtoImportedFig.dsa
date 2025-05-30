@@ -1,0 +1,179 @@
+// surface_match_prototype.dsa
+// Surface match prototype integrated into verified dialog layout with shader transfer and result summary
+
+function createSurfaceMatchDialog(sourceFigure, targetFigures) {
+    var dlg = new DzDialog();
+    dlg.setFixedSize(360, 140);
+
+    var lbl = new DzLabel(dlg);
+    lbl.text = "Select target OBJ figure:";
+    lbl.setGeometry(10, 10, 200, 20);
+
+    var combo = new DzComboBox(dlg);
+    combo.setGeometry(10, 40, 340, 20);
+    for (var i = 0; i < targetFigures.length; i++) {
+        combo.addItem(targetFigures[i].getLabel());
+    }
+
+    var btnAccept = new DzPushButton(dlg);
+    btnAccept.text = "OK";
+    btnAccept.setGeometry(190, 100, 70, 30);
+
+    var btnCancel = new DzPushButton(dlg);
+    btnCancel.text = "Cancel";
+    btnCancel.setGeometry(270, 100, 70, 30);
+    btnCancel.clicked.connect(function() {
+        dlg.close();
+    });
+
+    dlg.setAcceptButton(btnAccept);
+
+    var selectedIndex = -1;
+
+    btnAccept.clicked.connect(function() {
+        selectedIndex = combo.currentItem;
+        dlg.close();
+    });
+
+    dlg.exec();
+
+    if (selectedIndex < 0 || selectedIndex >= targetFigures.length) {
+        print("Dialog cancelled or no selection made");
+        return null;
+    }
+
+    return targetFigures[selectedIndex];
+}
+
+function collectSurfaces(figure) {
+    var surfaces = [];
+    var obj = figure.getObject();
+    if (obj) {
+        var shape = obj.getCurrentShape();
+        var matCount = shape.getNumMaterials();
+        for (var i = 0; i < matCount; i++) {
+            var mat = shape.getMaterial(i);
+            surfaces.push({ name: mat.getName(), label: figure.getLabel(), material: mat });
+        }
+    }
+    var childCount = figure.getNumNodeChildren();
+    for (var j = 0; j < childCount; j++) {
+        var child = figure.getNodeChild(j);
+        if (child.getLabel() === "Hip") continue;
+        var cobj = child.getObject();
+        if (cobj) {
+            var cshape = cobj.getCurrentShape();
+            var cmatCount = cshape.getNumMaterials();
+            for (var k = 0; k < cmatCount; k++) {
+                var cmat = cshape.getMaterial(k);
+                surfaces.push({ name: cmat.getName(), label: child.getLabel(), material: cmat });
+            }
+        }
+    }
+    return surfaces;
+}
+
+function normalize(label) {
+    return label.replace(/\s+/g, "_");
+}
+
+function showResults(matched, unmatched) {
+    var dlg = new DzDialog();
+    dlg.caption = "Surface Match Report";
+    dlg.setFixedSize(600, 400);
+
+    var lbl = new DzLabel(dlg);
+    lbl.text = "Match Summary:";
+    lbl.setGeometry(10, 10, 300, 20);
+
+    var txt = new DzTextEdit(dlg);
+    txt.setGeometry(10, 40, 580, 300);
+    txt.readOnly = true;
+
+    var content = "";
+    content += "Matched Surfaces:\n";
+    for (var i = 0; i < matched.length; i++) {
+        content += matched[i] + "\n";
+    }
+    content += "\nUnmatched Surfaces:\n";
+    for (var j = 0; j < unmatched.length; j++) {
+        content += unmatched[j] + "\n";
+    }
+    txt.plainText = content;
+
+    var btnClose = new DzPushButton(dlg);
+    btnClose.text = "Close";
+    btnClose.setGeometry(260, 350, 80, 30);
+    btnClose.clicked.connect(function() {
+        dlg.close();
+    });
+
+    dlg.setAcceptButton(btnClose);
+    dlg.exec();
+}
+
+var sourceFigure = Scene.getPrimarySelection();
+if (!sourceFigure || !sourceFigure.inherits("DzFigure")) {
+    var errorDialog = new DzDialog();
+    errorDialog.caption = "Selection Error";
+    errorDialog.setFixedSize(300, 100);
+
+    var lblError = new DzLabel(errorDialog);
+    lblError.text = "Please select a DAZ figure as source.";
+    lblError.setGeometry(20, 20, 260, 20);
+
+    var btnClose = new DzPushButton(errorDialog);
+    btnClose.text = "OK";
+    btnClose.setGeometry(110, 60, 80, 30);
+    btnClose.clicked.connect(function() {
+        errorDialog.close();
+    });
+
+    errorDialog.setAcceptButton(btnClose);
+    errorDialog.exec();
+} else {
+    var candidates = [];
+    var rootNodes = Scene.getNodeList();
+
+    for (var i = 0; i < rootNodes.length; i++) {
+        var node = rootNodes[i];
+        if (node.getLabel() === "Imported Objects") {
+            var childCount = node.getNumNodeChildren();
+            for (var j = 0; j < childCount; j++) {
+                var child = node.getNodeChild(j);
+                candidates.push(child);
+            }
+        }
+    }
+
+    var targetFigure = createSurfaceMatchDialog(sourceFigure, candidates);
+    if (!targetFigure) {
+        print("No target figure selected");
+    } else {
+        var sourceSurfaces = collectSurfaces(sourceFigure);
+        var targetSurfaces = collectSurfaces(targetFigure);
+        var targetMap = {};
+
+        for (var i = 0; i < targetSurfaces.length; i++) {
+            var t = targetSurfaces[i];
+            targetMap[t.name] = t;
+        }
+
+        var matched = [];
+        var unmatched = [];
+
+        for (var i = 0; i < sourceSurfaces.length; i++) {
+            var s = sourceSurfaces[i];
+            var specific = s.name + "_" + normalize(s.label);
+            var match = targetMap[specific] || targetMap[s.name];
+            if (match) {
+                matched.push(s.name + " (" + s.label + ") => " + match.name);
+                match.material.copyFrom(s.material);
+            } else {
+                unmatched.push(s.name + " (" + s.label + ")");
+            }
+        }
+
+        showResults(matched, unmatched);
+    }
+}
