@@ -12,7 +12,7 @@
 ## Initialize
 - Fetch `alpha/v5/crowdspawnerui.dsa`
 - Fetch `alpha/v1/crowdspawnerlogic.dsa`
-- Fetch 'alpha/v1/surfaceDazFigtoImportedFig.dsa'
+- Fetch `alpha/v1/surfaceDazFigtoImportedFig.dsa`
 - Fetch `crowdspawnerdesignguide.md`
 - Fetch 'gpt_instructions.md'
 
