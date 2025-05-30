@@ -138,7 +138,8 @@ function createChildSelectionDialog(title, message, options) {
 
     return options[selectedIndex];
 }
-
+```
+```javascript
 ### `test_child_selection_ui_full.dsa` 
 
 // Use this to test the previously referenced "createChildSelectionDialog" function.
@@ -185,4 +186,4 @@ btnOK.clicked.connect(function() {
 
 testDialog.setAcceptButton(btnOK);
 testDialog.exec();
-
+```
