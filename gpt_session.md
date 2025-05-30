@@ -1,18 +1,32 @@
-# GPT Session State
+# GPT Session File
+
+## Session Metadata
+- **Session Date**: 2025-05-30
+- **DAZ Studio Version**: 4.24
+- **Active Folder**: `/beta/`
+- **CrowdSpawnerUI Version**: `alpha/v5/crowdspawnerui.dsa`
+- **CrowdSpawnerLogic Version**: `alpha/v1/crowdspawnerlogic.dsa`
+- **Repository**: [dazcrowdspawner GitHub](https://github.com/datbird/dazcrowdspawner)
+
 
 ## Initialize
 - Fetch `alpha/v5/crowdspawnerui.dsa`
 - Fetch `alpha/v1/crowdspawnerlogic.dsa`
 - Fetch `crowdspawnerdesignguide.md`
-- Fetch `gpt_instructions.md`
-- Fetch alpha/v4/crowdspawnerui.dsa
-- Fetch alpha/v1/crowdspawnerlogic.dsa
-- Fetch crowdspawnerdesignguide.md
-- Fetch gpt_instructions.md
+- Fetch 'gpt_instructions.md'
 
+
+## Current Script Version
 Current Version Locked: alpha/v5/crowdspawnerui.dsa
 Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
----
+Current Version Locked: alpha/v1/SurfaceDazFigtoImportedFig.dsa
+
+
+## Canonical Files
+
+- `crowdspawnerdesignguide.md`
+- `gpt_instructions.md`
+- `gpt_session.md`
 
 ## Sync Behavior
 - Treat `alpha/v5/crowdspawnerui.dsa` as the current editable UI script
@@ -20,11 +34,6 @@ Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
 - Use `crowdspawnerdesignguide.md` as the definitive source for layout, field order, descriptions, and sectioning
 - Enforce all assistant constraints and behaviors from `gpt_instructions.md`
 - Recognize all versions in `/alpha`, `/beta`, and `/release`, and ask the user for clarification when ambiguity or updates are detected
-
-
-## Current Script Version
-
-
 
 ## Notes
 - `DzDialog` successfully implemented with full field layout
@@ -40,117 +49,140 @@ Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
   - Suppression of file name prompts during export.
   - Exports material presets to a predefined directory.
 - **Known Warnings:** `libpng warning: iCCP: known incorrect sRGB profile` messages may appear during execution; these are harmless and can be safely ignored.
+- UI has been finalized for v5
+- Required fields validated: accept button only activates if fields filled
+- Removal of static description labels in favor of tooltips
+- Bold section dividers
+- Double-pipe visual column divider added
+- Adjusted UI layout size (now 1000x552)
+- Final script tested and committed to repo
+- Use only DzDialog, DzPushButton, DzComboBox, DzLineEdit, DzCheckBox, DzLabel per verified working files.
+- Do not introduce QWidget, layouts, or addWidget patterns.
+- Future UI changes will target v6
+- Future Logic changs will target V2
+- Surface Match Prototype now fully matches and transfers shaders with summary output.
+- UI test confirmed compatibility for all interactive types.
 
-Recent Updates:
 
-UI has been finalized for v5
 
-Required fields validated: accept button only activates if fields filled
-
-Removal of static description labels in favor of tooltips
-
-Bold section dividers
-
-Double-pipe visual column divider added
-
-Adjusted UI layout size (now 1000x552)
-
-Final script tested and committed to repo
-
-Decimator Integration Testing:
-
-Decimator script failed using App.getPlugin and Decimator direct reference
-
-Revised approach assumes plugin is active but script still errors out
-
-Decimator not directly scriptable via standard exposed API
-
-Decimation settings best preserved in full scenes or subsets
-
-Crowd Optimization Guidance:
-
+## Crowd Optimization Guidance:
 Target ~20k triangle count per character for reasonable real-time performance
-
 Gen3 figures acceptable for background crowds (wardrobe, hair compatibility discussed)
-
 Mesh-based hair significantly increases decimation load
-
 Strand-based hair preferred for performance
 
-Asset Import and Customization:
-
+## Asset Import and Customization:
 Morph Loader (Advanced/Pro) for OBJ import as morphs
-
 Custom sliders and actor properties are script-addressable
-
 No direct detection of applied pose files (transforms only)
 
-Smart Content/Asset DB Handling:
-
+## Smart Content/Asset DB Handling:
 Custom Smart Content filters for Gen3 content
-
 Asset-based scripts cannot trivially detect originating products
-
 Subset/scene .duf files used as scripted triggers for logic
 
-Omni Hair Tool Suite:
 
-Toolset provides procedural SBG generation, grooming, decimation-like optimization
-
-Allows more visually acceptable low-poly hair vs. Decimator
-
-Next Development Goals:
-
+## Next Development Goals:
 Begin scripting logic components for v5 logic processor
-
 Reuse patterns established in v1 logic (avoid Qt libraries, follow stable Dz functions)
-
 Add functional elements for character spawning, marker detection, asset loading
 
-Design Guide Synced:
 
+## Design Guide Synced:
 Design guide updated to reflect new layout, logic behavior, and UI standards
 
-Notes:
+## Verified Dialog Components
 
-Future UI changes will target v6
-
-All decimation testing should isolate hair/wardrobe geometry from figure mesh
-
-Evaluate lightweight figure variants for efficient crowd simulation
-
-
-## Dialog Box Function
+### `createChildSelectionDialog`
 
 ```javascript
-function createChildSelectionDialog(title, message, childLabels) {
+function createChildSelectionDialog(title, message, options) {
     var dialog = new DzDialog();
     dialog.caption = title;
-    dialog.setFixedSize(400, 100 + 30 * childLabels.length);
+    dialog.setFixedSize(400, 160);
 
-    var label = new DzLabel(dialog);
-    label.text = message;
-    label.wordWrap = true;
-    label.setGeometry(10, 10, 380, 40);
+    var lbl = new DzLabel(dialog);
+    lbl.text = message;
+    lbl.setGeometry(10, 10, 380, 20);
 
-    var checkboxes = [];
-    for (var i = 0; i < childLabels.length; i++) {
-        var cb = new DzCheckBox(dialog);
-        cb.text = childLabels[i];
-        cb.checked = true;
-        cb.setGeometry(20, 60 + i * 30, 360, 25);
-        checkboxes.push(cb);
+    var combo = new DzComboBox(dialog);
+    combo.setGeometry(10, 40, 380, 25);
+    for (var i = 0; i < options.length; i++) {
+        combo.addItem(options[i].getLabel ? options[i].getLabel() : options[i]);
     }
 
-    var okButton = new DzPushButton(dialog);
-    okButton.text = "OK";
-    okButton.setGeometry(160, 60 + childLabels.length * 30, 80, 30);
-    okButton.clicked.connect(function () {
+    var btnAccept = new DzPushButton(dialog);
+    btnAccept.text = "OK";
+    btnAccept.setGeometry(220, 110, 80, 30);
+
+    var btnCancel = new DzPushButton(dialog);
+    btnCancel.text = "Cancel";
+    btnCancel.setGeometry(310, 110, 80, 30);
+    btnCancel.clicked.connect(function () {
         dialog.close();
     });
 
-    dialog.setAcceptButton(okButton);
+    dialog.setAcceptButton(btnAccept);
+
+    var selectedIndex = -1;
+    btnAccept.clicked.connect(function () {
+        selectedIndex = combo.currentItem;
+        dialog.close();
+    });
+
     dialog.exec();
 
-    return checkboxes.filter(function(cb) { return cb.checked; }).map(function(cb) { return cb.text; });
+    if (selectedIndex < 0 || selectedIndex >= options.length) {
+        return null;
+    }
+
+    return options[selectedIndex];
 }
+
+### `test_child_selection_ui_full.dsa` 
+
+// Use this to test the previously referenced "createChildSelectionDialog" function.
+// Comprehensive UI test for combo, checkboxes, and line edits
+
+var testDialog = new DzDialog();
+testDialog.caption = "UI Element Test";
+testDialog.setFixedSize(400, 300);
+
+var lblCombo = new DzLabel(testDialog);
+lblCombo.text = "Choose an option:";
+lblCombo.setGeometry(10, 10, 200, 20);
+
+var cmbOptions = new DzComboBox(testDialog);
+cmbOptions.setGeometry(10, 35, 200, 20);
+cmbOptions.addItem("Option A");
+cmbOptions.addItem("Option B");
+cmbOptions.addItem("Option C");
+
+var chkSample = new DzCheckBox(testDialog);
+chkSample.text = "Enable feature";
+chkSample.setGeometry(10, 70, 200, 20);
+chkSample.checked = true;
+
+var lblInput = new DzLabel(testDialog);
+lblInput.text = "Enter label:";
+lblInput.setGeometry(10, 100, 200, 20);
+
+var txtInput = new DzLineEdit(testDialog);
+txtInput.setGeometry(10, 125, 200, 20);
+txtInput.text = "Default Text";
+
+var btnOK = new DzPushButton(testDialog);
+btnOK.text = "OK";
+btnOK.setGeometry(100, 200, 80, 30);
+
+btnOK.clicked.connect(function() {
+    var result = "Combo Selection: " + cmbOptions.currentText + "\n";
+    result += "Checkbox is " + (chkSample.checked ? "checked" : "unchecked") + "\n";
+    result += "Text Input: " + txtInput.text;
+    print(result);
+    testDialog.close();
+});
+
+testDialog.setAcceptButton(btnOK);
+testDialog.exec();
+
