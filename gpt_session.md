@@ -1,11 +1,7 @@
-# Session Summary - Crowd Spawner Development (v5 UI Finalized)
-
-This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assistant. Upon loading this file, the assistant should sync with all relevant files and enforce behavior based on the design guide and locked instruction set.
-
----
+# GPT Session State
 
 ## Initialize
-- Fetch `alpha/v1/crowdspawnerui.dsa`
+- Fetch `alpha/v5/crowdspawnerui.dsa`
 - Fetch `alpha/v1/crowdspawnerlogic.dsa`
 - Fetch `crowdspawnerdesignguide.md`
 - Fetch `gpt_instructions.md`
@@ -14,7 +10,8 @@ This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assi
 - Fetch crowdspawnerdesignguide.md
 - Fetch gpt_instructions.md
 
-
+Current Version Locked: alpha/v5/crowdspawnerui.dsa
+Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
 ---
 
 ## Sync Behavior
@@ -24,9 +21,10 @@ This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assi
 - Enforce all assistant constraints and behaviors from `gpt_instructions.md`
 - Recognize all versions in `/alpha`, `/beta`, and `/release`, and ask the user for clarification when ambiguity or updates are detected
 
----
 
-## Session Notes
+## Current Script Version
+
+
 
 ## Notes
 - `DzDialog` successfully implemented with full field layout
@@ -34,17 +32,14 @@ This file is used to initialize a new session for the DAZ Crowd Spawner GPT Assi
 - Accept and Cancel buttons functional
 - Layout confirmed in DAZ Studio 4.24 Premier
 - Vertical divider placeholder removed (styleSheet not supported natively)
-- Ready for logic/validation in alpha v5
-
-TODO
-- [ ] Validate implementation of all 21 fields and their descriptions per the design guide
-- [ ] Confirm variant/suffix matching logic functions as described
-- [ ] Ensure all scaling logic uses `DzIntSlider` and is clamped properly
-- [ ] Await next edits to determine when to advance to `beta/v1/`
-- [ ] Encourage saving session state after key updates to retain continuity
-
-
-Current Version Locked: alpha/v5/crowdspawnerui.dsa
+- Ready for logic/validation
+- **Functionality:** Exports material presets for the selected parent figure and its immediate children (excluding "Hip"), with user-selectable inclusion via checkboxes.
+- **Features:**
+  - Dynamic parent selection based on current scene selection.
+  - Dialog box with checkboxes for each direct child node (excluding "Hip").
+  - Suppression of file name prompts during export.
+  - Exports material presets to a predefined directory.
+- **Known Warnings:** `libpng warning: iCCP: known incorrect sRGB profile` messages may appear during execution; these are harmless and can be safely ignored.
 
 Recent Updates:
 
@@ -123,3 +118,39 @@ Future UI changes will target v6
 All decimation testing should isolate hair/wardrobe geometry from figure mesh
 
 Evaluate lightweight figure variants for efficient crowd simulation
+
+
+## Dialog Box Function
+
+```javascript
+function createChildSelectionDialog(title, message, childLabels) {
+    var dialog = new DzDialog();
+    dialog.caption = title;
+    dialog.setFixedSize(400, 100 + 30 * childLabels.length);
+
+    var label = new DzLabel(dialog);
+    label.text = message;
+    label.wordWrap = true;
+    label.setGeometry(10, 10, 380, 40);
+
+    var checkboxes = [];
+    for (var i = 0; i < childLabels.length; i++) {
+        var cb = new DzCheckBox(dialog);
+        cb.text = childLabels[i];
+        cb.checked = true;
+        cb.setGeometry(20, 60 + i * 30, 360, 25);
+        checkboxes.push(cb);
+    }
+
+    var okButton = new DzPushButton(dialog);
+    okButton.text = "OK";
+    okButton.setGeometry(160, 60 + childLabels.length * 30, 80, 30);
+    okButton.clicked.connect(function () {
+        dialog.close();
+    });
+
+    dialog.setAcceptButton(okButton);
+    dialog.exec();
+
+    return checkboxes.filter(function(cb) { return cb.checked; }).map(function(cb) { return cb.text; });
+}
