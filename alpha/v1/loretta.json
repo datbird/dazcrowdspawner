@@ -1,45 +1,63 @@
 {
-  "Character": "Loretta",
-  "ActorPath": "Runtime/Libraries/Character/P3DA_LorettaLorez",
-  "Actor": "!!LorettaLorez.cr2",
-  "MATPaths": {
-    "SkinAndHair": "P3DA/P3DA_LorettaLorez/!MATs_{Ethnicity}/",
-    "Eyes": "P3DA/P3DA_LorettaLorez/MATs_Eyes/",
-    "Clothes": "P3DA/P3DA_LorettaLorez/MATs_Clothes/"
+  "character": "Loretta",
+  "actorFile": "!!LorettaLorez.cr2",
+  "actorDirectory": "Runtime/Libraries/Character/P3DA_LorettaLorez",
+  "ethnicities": ["African", "Caucasian", "Indian", "Latino", "Oriental"],
+  "materialPaths": {
+    "skin": "P3DA/P3DA_LorettaLorez/!MATs_{ethnicity}/",
+    "eyes": "P3DA/P3DA_LorettaLorez/MATs_Eyes/",
+    "clothes": "P3DA/P3DA_LorettaLorez/MATs_Clothes/",
+    "hairProps": "Runtime/Libraries/Props/P3DA_LorettaLorez/"
   },
-  "HairPropsPath": "Runtime/Libraries/Props/P3DA_LorettaLorez",
-  "HairProps": [
-    "Hair_Bunches.pp2",
-    "Hair_TiedBack.pp2",
-    "Hairband.pp2",
-    "Hair_FullBobCut.pp2"
+  "skinFiles": {
+    "African": "!MAT_Skin_Base_Hairy.pz2",
+    "Caucasian": "!MAT_Skin_Base_Hairy.pz2",
+    "Indian": "!MAT_Skin_Base_Hairy.dsa",
+    "Latino": "!MAT_Skin_Base_Hairy.dsa",
+    "Oriental": "!MAT_Skin_Base_Hairy.pz2"
+  },
+  "eyeMats": [
+    "MAT_Eyes_Blue.pz2", "MAT_Eyes_Brown.pz2",
+    "MAT_Eyes_Green.pz2", "MAT_Eyes_Grey.pz2",
+    "MAT_Eyes_Hazel.pz2"
   ],
-  "Ethnicities": [
-    "!MATs_African",
-    "!MATs_Caucasian",
-    "!MATs_Indian",
-    "!MATs_Latino",
-    "!MATs_Oriental"
+  "clothingMats": [
+    "MAT_Casual_Blue.pz2", "MAT_Casual_Grey.pz2",
+    "MAT_Casual_Red.pz2", "MAT_Casual_Teal.pz2",
+    "MAT_Casual_White.pz2"
   ],
-  "NamedFaceMorphs": [
-    "Face_Laura",
-    "Face_Lauren",
-    "Face_Lira",
-    "Face_Lorraine",
-    "Face_Lori",
-    "Face_Lorna"
-  ],
-  "ClothingProfiles": {
-    "Default": {
-      "TopMATs": ["MAT_Blouse_*.pz2"],
-      "BottomMATs": ["MAT_Skirt_*.pz2"],
-      "Shoes": ["MAT_Shoes_*.pz2"],
-      "Accessories": ["MAT_Scarf_*.pz2"]
+  "hairstyles": {
+    "Afro": {
+      "ethnicity": "African",
+      "prop": "AFRO_Hair_Prop.pp2",
+      "morph": "Afro",
+      "value": 1.0
+    },
+    "BackTied": {
+      "prop": "BackTied_Hair_Prop.pp2"
+    },
+    "Pony": {
+      "prop": "Pony_Hair_Prop.pp2"
+    },
+    "Hairband": {
+      "prop": "Hairband_Hair_Prop.pp2"
+    },
+    "Standard": {
+      "prop": "Standard_Hair_Prop.pp2"
+    },
+    "Pigtails": {
+      "prop": "Pigtails_Hair_Prop.pp2"
+    },
+    "Bob": {
+      "prop": "Bob_Hair_Prop.pp2"
     }
   },
-  "RandomFaceBlend": {
-    "NumMorphs": 3,
-    "TotalWeight": 1.0,
-    "BlendStrategy": "Random"
+  "namedFaceMorphs": [
+    "Face_Laura", "Face_Lauren", "Face_Lira",
+    "Face_Lorraine", "Face_Lori", "Face_Lorna"
+  ],
+  "faceBlendRule": {
+    "select": 3,
+    "normalizeTotal": 1.0
   }
 }
