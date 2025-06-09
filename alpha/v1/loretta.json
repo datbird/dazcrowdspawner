@@ -1,0 +1,45 @@
+{
+  "Character": "Loretta",
+  "ActorPath": "Runtime/Libraries/Character/P3DA_LorettaLorez",
+  "Actor": "!!LorettaLorez.cr2",
+  "MATPaths": {
+    "SkinAndHair": "P3DA/P3DA_LorettaLorez/!MATs_{Ethnicity}/",
+    "Eyes": "P3DA/P3DA_LorettaLorez/MATs_Eyes/",
+    "Clothes": "P3DA/P3DA_LorettaLorez/MATs_Clothes/"
+  },
+  "HairPropsPath": "Runtime/Libraries/Props/P3DA_LorettaLorez",
+  "HairProps": [
+    "Hair_Bunches.pp2",
+    "Hair_TiedBack.pp2",
+    "Hairband.pp2",
+    "Hair_FullBobCut.pp2"
+  ],
+  "Ethnicities": [
+    "!MATs_African",
+    "!MATs_Caucasian",
+    "!MATs_Indian",
+    "!MATs_Latino",
+    "!MATs_Oriental"
+  ],
+  "NamedFaceMorphs": [
+    "Face_Laura",
+    "Face_Lauren",
+    "Face_Lira",
+    "Face_Lorraine",
+    "Face_Lori",
+    "Face_Lorna"
+  ],
+  "ClothingProfiles": {
+    "Default": {
+      "TopMATs": ["MAT_Blouse_*.pz2"],
+      "BottomMATs": ["MAT_Skirt_*.pz2"],
+      "Shoes": ["MAT_Shoes_*.pz2"],
+      "Accessories": ["MAT_Scarf_*.pz2"]
+    }
+  },
+  "RandomFaceBlend": {
+    "NumMorphs": 3,
+    "TotalWeight": 1.0,
+    "BlendStrategy": "Random"
+  }
+}
