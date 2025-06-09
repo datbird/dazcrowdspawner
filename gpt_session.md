@@ -64,6 +64,50 @@
 - Surface Match Prototype now fully matches and transfers shaders with summary output.
 - UI test confirmed compatibility for all interactive types.
 
+### ✅ LoRez / LowREZ Figure Support
+- Verified `Lorenzo` and `Loretta` support DAZ native morphs and `.pz2` injection via the full version (not “Blank”)
+- `.pz2` INJ files confirmed functional when figure has embedded morph channels
+
+### ✅ Script-Based Morph Access
+- Verified `DzFloatProperty` morph sliders like “Teen,” “Child,” etc. are fully script-accessible
+- Example code confirmed for querying and modifying morphs
+
+### ✅ Equations for Procedural Morph Dependency:
+User mapped `LegsLength` as base morph to drive others:
+
+
+
+#### Forward Mappings:
+```javascript
+FeetSize   = 0.35 + ((LegsLength - 0.7) / 0.3) * 0.15;
+yTranslate = ((LegsLength - 0.7) / 0.3) * 12;
+HeadSize   = 0.2  + ((LegsLength - 0.7) / 0.3) * 0.2;
+
+Mirrored Mappings (for negative LegsLength):
+
+FeetSize   = - (0.35 + ((Math.abs(LegsLength) - 0.7) / 0.3) * 0.15);
+yTranslate = - ((Math.abs(LegsLength) - 0.7) / 0.3) * 12;
+HeadSize   = - (0.2  + ((Math.abs(LegsLength) - 0.7) / 0.3) * 0.2);
+
+Bidirectional Mappings (LegsLength from -0.8 to 0.2):
+
+FeetSize   = -0.4 + ((LegsLength + 0.8) / 1.0) * 0.6;
+HeadSize   = -0.4 + ((LegsLength + 0.8) / 1.0) * 0.6;
+yTranslate = LegsLength * 12;
+
+✅ Pose Control via Script
+
+    Confirmed ability to set specific pose sliders on bones using known names (e.g., "lThigh", "Bend")
+
+    Provided template script for setting slider values directly
+
+Outstanding Opportunities
+
+    Script utility for morph-to-morph dependency application
+
+    JSON-driven morph assignment tool for procedural crowd population
+
+    Category-driven random actor selection
 
 
 ## Crowd Optimization Guidance:
