@@ -1,40 +1,57 @@
 {
-  "Character": "Lorenzo",
-  "ActorPath": "Runtime/Libraries/Character/P3DA_LorenzoLorez",
-  "Actors": ["BusinessSuit.cr2", "Hoodie.cr2", "T-Shirt.cr2"],
-  "MATPaths": {
-    "SkinAndHair": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/{Ethnicity}/",
-    "Eyes": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/Eyes/",
-    "Clothes": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_CLOTHES/"
+  "character": "Lorenzo",
+  "actorDirectory": "Runtime/Libraries/Character/P3DA_LorenzoLorez",
+  "baseActors": [
+    "BusinessSuit.cr2",
+    "Hoodie.cr2",
+    "T-Shirt.cr2"
+  ],
+  "ethnicities": [
+    "African",
+    "Caucasian",
+    "Indian",
+    "Latino",
+    "Oriental"
+  ],
+  "materialPaths": {
+    "skin": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/{ethnicity}/",
+    "eyes": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/Eyes/",
+    "clothes": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_CLOTHES/"
   },
-  "Ethnicities": ["African", "Caucasian", "Indian", "Latino", "Oriental"],
-  "NamedFaceMorphs": [
+  "skinFiles": ["MAT_Skin_Base_Hairy.pz2"],
+  "eyeMats": [
+    "MAT_Eyes_Blue.pz2",
+    "MAT_Eyes_Brown.pz2",
+    "MAT_Eyes_Green.pz2",
+    "MAT_Eyes_Grey.pz2",
+    "MAT_Eyes_Hazel.pz2"
+  ],
+  "hairMats": [
+    "MAT_Beard_Blk.pz2", "MAT_Goatee_Blk.pz2", "MAT_Tash_Blk.pz2",
+    "MAT_Hair_Blk.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairTash_Blk.pz2",
+    "MAT_Beard_Blond.pz2", "MAT_Goatee_Blond.pz2", "MAT_Tash_Blond.pz2",
+    "MAT_Hair_Blnd.pz2", "MAT_HairBeard_Blnd.pz2", "MAT_HairGoatee_Blnd.pz2", "MAT_HairTash_Blnd.pz2",
+    "MAT_Beard_Brown.pz2", "MAT_Goatee_Brown.pz2", "MAT_Tash_Brown.pz2",
+    "MAT_Hair_Brown.pz2", "MAT_HairBeard_Brwn.pz2", "MAT_HairGoatee_Brwn.pz2", "MAT_HairTash_Brwn.pz2",
+    "MAT_Beard_Red.pz2", "MAT_Goatee_Red.pz2", "MAT_Tash_Red.pz2",
+    "MAT_Hair_Red.pz2", "MAT_HairBeard_Red.pz2", "MAT_HairGoatee_Red.pz2", "MAT_HairTash_Red.pz2"
+  ],
+  "clothingMats": [
+    "MAT_BSuit_Black.pz2", "MAT_BSuit_Blue.pz2", "MAT_BSuit_Brown.pz2", "MAT_BSuit_Grey.pz2",
+    "MAT_Shirt_Blue.pz2", "MAT_Shirt_Gray.pz2",
+    "MAT_Hoodie_Gray.pz2", "MAT_Hoodie_Black.pz2",
+    "MAT_Jeans_Blue.pz2", "MAT_Jeans_Gray.pz2",
+    "MAT_Shoes_Black.pz2", "MAT_Shoes_Brown.pz2",
+    "MAT_Trainers_Blue.pz2", "MAT_Trainers_Gray.pz2"
+  ],
+  "namedFaceMorphs": [
     "Face_Alfonso", "Face_Antonio", "Face_Carlo", "Face_Dario",
     "Face_Dino", "Face_Enzio", "Face_Francesco", "Face_Frederico",
     "Face_Giorgio", "Face_Leonardo", "Face_Luigi", "Face_Paolo",
     "Face_Pietro", "Face_Roberto", "Face_Ruggerio", "Face_Vincenzo"
   ],
-  "ClothingProfiles": {
-    "BusinessSuit": {
-      "TopMATs": ["MAT_Suit_*.pz2"],
-      "BottomMATs": ["MAT_Pants_*.pz2"],
-      "Shoes": ["MAT_Shoes_Dress*.pz2"]
-    },
-    "Hoodie": {
-      "TopMATs": ["MAT_Hoodie_*.pz2"],
-      "BottomMATs": ["MAT_Jeans_*.pz2"],
-      "Shoes": ["MAT_Shoes_Trainers*.pz2"]
-    },
-    "T-Shirt": {
-      "TopMATs": ["MAT_TShirt_*.pz2"],
-      "SleevesMATs": ["MAT_Sleeves_*.pz2"],
-      "BottomMATs": ["MAT_Jeans_*.pz2"],
-      "Shoes": ["MAT_Shoes_Trainers*.pz2"]
-    }
-  },
-  "RandomFaceBlend": {
-    "NumMorphs": 3,
-    "TotalWeight": 1.0,
-    "BlendStrategy": "Random"
+  "faceBlendRule": {
+    "select": 3,
+    "normalizeTotal": 1.0
   }
 }
