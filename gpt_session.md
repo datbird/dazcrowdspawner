@@ -1,11 +1,13 @@
 # GPT Session File
 
 ## Session Metadata
-- **Session Date**: 2025-05-30
+- **Session Date**: 2025-06-10
 - **DAZ Studio Version**: 4.24
-- **Active Folder**: `/beta/`
+- **Active Folder**: `/alpha/`
 - **CrowdSpawnerUI Version**: `alpha/v5/crowdspawnerui.dsa`
 - **CrowdSpawnerLogic Version**: `alpha/v1/crowdspawnerlogic.dsa`
+- **CrowdSpawnerLogic Version**: `alpha/v1/lorenzo.json`
+- **CrowdSpawnerLogic Version**: `alpha/v1/loretta.json'
 - **Repository**: [dazcrowdspawner GitHub](https://github.com/datbird/dazcrowdspawner)
 
 
@@ -35,6 +37,25 @@
 - Use `crowdspawnerdesignguide.md` as the definitive source for layout, field order, descriptions, and sectioning
 - Enforce all assistant constraints and behaviors from `gpt_instructions.md`
 - Recognize all versions in `/alpha`, `/beta`, and `/release`, and ask the user for clarification when ambiguity or updates are detected
+
+## Active JSON Config
+
+**File Path:**  
+`People/Lorez/Scripts/CrowdSpawner/lorenzo.json`
+`People/Lorez/Scripts/CrowdSpawner/loretta.json`
+
+**Golden Configuration (Lorenzo):**
+- `character`: "Lorenzo"
+- `actorDirectory`: "Runtime/Libraries/Character/P3DA_LorenzoLorez"
+- `materialPaths`: Defines paths for `skin`, `eyes`, and `clothes` materials
+- `ancestryGroups`: ["Black", "White", "Indian", "Latino", "Asian"]
+- `ancestryGroupMapping`: "White" → "Caucasian", "Black" → "African", "Asian" → "Oriental"
+- `lifestages.adult`: Contains full baseActors, material lists, eye mats,
+
+**Golden Configuration (Lorenzo):**
+- `character`: "Loretta"
+- `actorDirectory`: "\Runtime\Libraries\Character\P3DA_LorettaLorez"
+
 
 ## Notes
 - `DzDialog` successfully implemented with full field layout
