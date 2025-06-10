@@ -88,6 +88,9 @@
 - Future Logic changs will target V2
 - Surface Match Prototype now fully matches and transfers shaders with summary output.
 - UI test confirmed compatibility for all interactive types.
+- Next lifestage expansion (e.g., child/teen/elder) will follow the `lifestages` structure
+- HairStyle mapping and style-based logic are queued as future enhancements
+- No global changes outside the `"adult"` block in current testing
 
 ### ✅ LoRez / LowREZ Figure Support
 - Verified `Lorenzo` and `Loretta` support DAZ native morphs and `.pz2` injection via the full version (not “Blank”)
