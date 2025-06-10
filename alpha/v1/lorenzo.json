@@ -15,7 +15,8 @@
   ],
   "ancestryGroupMapping": {
     "Asian": "Oriental",
-    "Black": "African"
+    "Black": "African",
+    "White": "Caucasian"
   },
   "materialPaths": {
     "skin": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/{ancestryGroup}/",
