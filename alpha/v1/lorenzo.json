@@ -1,152 +1,55 @@
 {
   "character": "Lorenzo",
   "actorDirectory": "Runtime/Libraries/Character/P3DA_LorenzoLorez",
-  "baseActors": [
-    "BusinessSuit.cr2",
-    "Hoodie.cr2",
-    "T-Shirt.cr2"
-  ],
-  "ancestryGroups": [
-    "Black",
-    "White",
-    "Indian",
-    "Latino",
-    "Asian"
-  ],
-  "ancestryGroupMapping": {
-    "Asian": "Oriental",
-    "Black": "African",
-    "White": "Caucasian"
-  },
   "materialPaths": {
     "skin": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/{ancestryGroup}/",
     "eyes": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_SKIN/Eyes/",
     "clothes": "Runtime/Libraries/Pose/P3DA_LorenzoLorez/MATS_CLOTHES/"
   },
-  "skinFiles": ["!MAT_Skin_Base_Hairy.pz2"],
-  "eyeMats": [
-    "MAT_Eyes_Blue.pz2",
-    "MAT_Eyes_Brown.pz2",
-    "MAT_Eyes_DkBrown.pz2",
-    "MAT_Eyes_Green.pz2"
-  ],
-  "hairMats": [
-    "MAT_Beard_Blk.pz2", "MAT_Goatee_Blk.pz2", "MAT_Tash_Blk.pz2",
-    "MAT_Hair_Blk.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairTash_Blk.pz2",
-    "MAT_Beard_Blond.pz2", "MAT_Goatee_Blond.pz2", "MAT_Tash_Blond.pz2",
-    "MAT_Hair_Blnd.pz2", "MAT_HairBeard_Blnd.pz2", "MAT_HairGoatee_Blnd.pz2", "MAT_HairTash_Blnd.pz2",
-    "MAT_Beard_Brown.pz2", "MAT_Goatee_Brown.pz2", "MAT_Tash_Brown.pz2",
-    "MAT_Hair_Brown.pz2", "MAT_HairBeard_Brwn.pz2", "MAT_HairGoatee_Brwn.pz2", "MAT_HairTash_Brwn.pz2",
-    "MAT_Beard_Red.pz2", "MAT_Goatee_Red.pz2", "MAT_Tash_Red.pz2",
-    "MAT_Hair_Red.pz2", "MAT_HairBeard_Red.pz2", "MAT_HairGoatee_Red.pz2", "MAT_HairTash_Red.pz2"
-  ],
-  "tshirtSleeveMats": [
-    "MAT_TSSleeve_Black.pz2", "MAT_TSSleeve_Blue.pz2", "MAT_TSSleeve_DGrey.pz2", "MAT_TSSleeve_Green.pz2",
-    "MAT_TSSleeve_Mstrd.pz2", "MAT_TSSleeve_Olive.pz2", "MAT_TSSleeve_Ornge.pz2", "MAT_TSSleeve_Red.pz2",
-    "MAT_TSSleeve_Sky.pz2", "MAT_TSSleeve_White.pz2"
-  ],
-  "hoodieSleeveMats": [
-    "MAT_HSleeves_Black.pz2",
-    "MAT_HSleeves_Blue.pz2",
-    "MAT_HSleeves_Brwn.pz2",
-    "MAT_HSleeves_DkGrey.pz2",
-    "MAT_HSleeves_Green.pz2",
-    "MAT_HSleeves_Grey.pz2",
-    "MAT_HSleeves_Grey_2.pz2",
-    "MAT_HSleeves_Red.pz2",
-    "MAT_HSleeves_Red_2.pz2",
-    "MAT_HSleeves_Sky.pz2"
-  ],
-  "tshirtMats": [
-    "MAT_TShirt_Black.pz2", "MAT_TShirt_BlackSkull.pz2",
-    "MAT_TShirt_Blue.pz2", "MAT_TShirt_BlueLion.pz2",
-    "MAT_TShirt_DkGrey.pz2", 
-    "MAT_TShirt_Green.pz2", "MAT_TShirt_GreenMark.pz2",
-    "MAT_TShirt_Mustard.pz2", "MAT_TShirt_MustardMash.pz2",
-    "MAT_TShirt_Olive.pz2", "MAT_TShirt_OliveArmy.pz2",
-    "MAT_TShirt_Orange.pz2", "MAT_TShirt_OrangeHeat.pz2",
-    "MAT_TShirt_Red.pz2", "MAT_TShirt_RedSpider.pz2",
-    "MAT_TShirt_Sky.pz2", "MAT_TShirt_SkyMOD.pz2",
-    "MAT_TShirt_White.pz2",
-    "MAT_TShirt_WhiteMOD.pz2"
-  ],
-  "jeansMats": [
-    "MAT_Jeans_Black_1.pz2",
-    "MAT_Jeans_Blue_1.pz2",
-    "MAT_Jeans_Blue_2.pz2",
-    "MAT_Jeans_Blue_3.pz2",
-    "MAT_Jeans_Blue_4.pz2"
-  ],
-  "businessTrousersMats": [
-    "MAT_BTrousers_Black.pz2",
-    "MAT_BTrousers_Blue.pz2",
-    "MAT_BTrousers_Brwn.pz2",
-    "MAT_BTrousers_Grey.pz2"
-  ],
-  "businessTiesMats": [
-    "MAT_BTie_Black.pz2",
-    "MAT_BTie_BlackRed.pz2",
-    "MAT_BTie_BlackSlvr.pz2",
-    "MAT_BTie_Blue.pz2",
-    "MAT_BTie_BlueWhite.pz2",
-    "MAT_BTie_Green.pz2",
-    "MAT_BTie_Red.pz2",
-    "MAT_BTie_RedWhite.pz2"
-  ],
-  "businessShirtsMats": [
-    "MAT_BShirt_Black.pz2",
-    "MAT_BShirt_Blue.pz2",
-    "MAT_BShirt_Pink.pz2",
-    "MAT_BShirt_Tan.pz2",
-    "MAT_BShirt_White.pz2"
-  ],
-  "bootsMats": [
-    "MAT_Boots_1.pz2",
-    "MAT_Boots_2.pz2"
-  ],
-  "trainersMats": [
-    "MAT_Trainers_Black.pz2",
-    "MAT_Trainers_Blue.pz2",
-    "MAT_Trainers_Grey.pz2",
-    "MAT_Trainers_Red.pz2",
-    "MAT_Trainers_Tan.pz2"
-  ],
-  "shoesMats": [
-    "MAT_Shoes_1_Black.pz2",
-    "MAT_Shoes_1_Brown.pz2"
-  ],
-  "hoodieMats": [
-    "MAT_Hoodie_Black_1.pz2",
-    "MAT_Hoodie_Black_2.pz2",
-    "MAT_Hoodie_Blue_1.pz2",
-    "MAT_Hoodie_Blue_2.pz2",
-    "MAT_Hoodie_Brown_1.pz2",
-    "MAT_Hoodie_Brown_2.pz2",
-    "MAT_Hoodie_DkGrey_1.pz2",
-    "MAT_Hoodie_DkGrey_2.pz2",
-    "MAT_Hoodie_Green_1.pz2",
-    "MAT_Hoodie_Green_2.pz2",
-    "MAT_Hoodie_Grey_1.pz2",
-    "MAT_Hoodie_Grey_2.pz2",
-    "MAT_Hoodie_Red_1.pz2",
-    "MAT_Hoodie_Red_2.pz2",
-    "MAT_Hoodie_Sky_1.pz2",
-    "MAT_Hoodie_Sky_2.pz2"
-  ],
-  "businessSuitMats": [
-    "MAT_BSuit_Black.pz2",
-    "MAT_BSuit_Blue.pz2",
-    "MAT_BSuit_Brown.pz2",
-    "MAT_BSuit_Grey.pz2"
-  ],
-  "namedFaceMorphs": [
-    "Face_Alfonso", "Face_Antonio", "Face_Carlo", "Face_Dario",
-    "Face_Dino", "Face_Enzio", "Face_Francesco", "Face_Frederico",
-    "Face_Giorgio", "Face_Leonardo", "Face_Luigi", "Face_Paolo",
-    "Face_Pietro", "Face_Roberto", "Face_Ruggerio", "Face_Vincenzo"
-  ],
-  "faceBlendRule": {
-    "select": 3,
-    "normalizeTotal": 1.0
+  "ancestryGroups": ["Black", "White", "Indian", "Latino", "Asian"],
+  "ancestryGroupMapping": {
+    "Asian": "Oriental",
+    "Black": "African",
+    "White": "Caucasian"
+  },
+  "lifestages": {
+    "adult": {
+      "baseActors": [
+        "BusinessSuit.cr2",
+        "Hoodie.cr2",
+        "T-Shirt.cr2"
+      ],
+      "skinFiles": ["!MAT_Skin_Base_Hairy.pz2"],
+      "eyeMats": [
+        "MAT_Eyes_Blue.pz2",
+        "MAT_Eyes_Brown.pz2",
+        "MAT_Eyes_DkBrown.pz2",
+        "MAT_Eyes_Green.pz2"
+      ],
+      "ancestryHairMats": {
+        "Black": ["MAT_Beard_Blk.pz2", "MAT_Goatee_Blk.pz2", "MAT_Tash_Blk.pz2", "MAT_Hair_Blk.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairTash_Blk.pz2"],
+        "White": ["MAT_Beard_Blk.pz2", "MAT_Beard_Blond.pz2", "MAT_Beard_Brown.pz2", "MAT_Beard_Red.pz2", "MAT_Goatee_Blk.pz2", "MAT_Goatee_Blond.pz2", "MAT_Goatee_Brown.pz2", "MAT_Goatee_Red.pz2", "MAT_Tash_Blk.pz2", "MAT_Tash_Blond.pz2", "MAT_Tash_Brown.pz2", "MAT_Tash_Red.pz2", "MAT_Hair_Blk.pz2", "MAT_Hair_Blnd.pz2", "MAT_Hair_Brown.pz2", "MAT_Hair_Red.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairBeard_Blnd.pz2", "MAT_HairBeard_Brwn.pz2", "MAT_HairBeard_Red.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairGoatee_Blnd.pz2", "MAT_HairGoatee_Brwn.pz2", "MAT_HairGoatee_Red.pz2", "MAT_HairTash_Blk.pz2", "MAT_HairTash_Blnd.pz2", "MAT_HairTash_Brwn.pz2", "MAT_HairTash_Red.pz2"],
+        "Indian": ["MAT_Beard_Blk.pz2", "MAT_Goatee_Blk.pz2", "MAT_Tash_Blk.pz2", "MAT_Hair_Blk.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairTash_Blk.pz2"],
+        "Latino": ["MAT_Beard_Blk.pz2", "MAT_Goatee_Blk.pz2", "MAT_Tash_Blk.pz2", "MAT_Hair_Blk.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairTash_Blk.pz2"],
+        "Asian": ["MAT_Beard_Blk.pz2", "MAT_Goatee_Blk.pz2", "MAT_Tash_Blk.pz2", "MAT_Hair_Blk.pz2", "MAT_HairBeard_Blk.pz2", "MAT_HairGoatee_Blk.pz2", "MAT_HairTash_Blk.pz2"]
+      },
+      "tshirtSleeveMats": ["MAT_TSSleeve_Black.pz2", "MAT_TSSleeve_Blue.pz2", "MAT_TSSleeve_DGrey.pz2", "MAT_TSSleeve_Green.pz2", "MAT_TSSleeve_Mstrd.pz2", "MAT_TSSleeve_Olive.pz2", "MAT_TSSleeve_Ornge.pz2", "MAT_TSSleeve_Red.pz2", "MAT_TSSleeve_Sky.pz2", "MAT_TSSleeve_White.pz2"],
+      "hoodieSleeveMats": ["MAT_HSleeves_Black.pz2", "MAT_HSleeves_Blue.pz2", "MAT_HSleeves_Brwn.pz2", "MAT_HSleeves_DkGrey.pz2", "MAT_HSleeves_Green.pz2", "MAT_HSleeves_Grey.pz2", "MAT_HSleeves_Grey_2.pz2", "MAT_HSleeves_Red.pz2", "MAT_HSleeves_Red_2.pz2", "MAT_HSleeves_Sky.pz2"],
+      "tshirtMats": ["MAT_TShirt_Black.pz2", "MAT_TShirt_BlackSkull.pz2", "MAT_TShirt_Blue.pz2", "MAT_TShirt_BlueLion.pz2", "MAT_TShirt_DkGrey.pz2", "MAT_TShirt_Green.pz2", "MAT_TShirt_GreenMark.pz2", "MAT_TShirt_Mustard.pz2", "MAT_TShirt_MustardMash.pz2", "MAT_TShirt_Olive.pz2", "MAT_TShirt_OliveArmy.pz2", "MAT_TShirt_Orange.pz2", "MAT_TShirt_OrangeHeat.pz2", "MAT_TShirt_Red.pz2", "MAT_TShirt_RedSpider.pz2", "MAT_TShirt_Sky.pz2", "MAT_TShirt_SkyMOD.pz2", "MAT_TShirt_White.pz2", "MAT_TShirt_WhiteMOD.pz2"],
+      "jeansMats": ["MAT_Jeans_Black_1.pz2", "MAT_Jeans_Blue_1.pz2", "MAT_Jeans_Blue_2.pz2", "MAT_Jeans_Blue_3.pz2", "MAT_Jeans_Blue_4.pz2"],
+      "businessTrousersMats": ["MAT_BTrousers_Black.pz2", "MAT_BTrousers_Blue.pz2", "MAT_BTrousers_Brwn.pz2", "MAT_BTrousers_Grey.pz2"],
+      "businessTiesMats": ["MAT_BTie_Black.pz2", "MAT_BTie_BlackRed.pz2", "MAT_BTie_BlackSlvr.pz2", "MAT_BTie_Blue.pz2", "MAT_BTie_BlueWhite.pz2", "MAT_BTie_Green.pz2", "MAT_BTie_Red.pz2", "MAT_BTie_RedWhite.pz2"],
+      "businessShirtsMats": ["MAT_BShirt_Black.pz2", "MAT_BShirt_Blue.pz2", "MAT_BShirt_Pink.pz2", "MAT_BShirt_Tan.pz2", "MAT_BShirt_White.pz2"],
+      "bootsMats": ["MAT_Boots_1.pz2", "MAT_Boots_2.pz2"],
+      "trainersMats": ["MAT_Trainers_Black.pz2", "MAT_Trainers_Blue.pz2", "MAT_Trainers_Grey.pz2", "MAT_Trainers_Red.pz2", "MAT_Trainers_Tan.pz2"],
+      "shoesMats": ["MAT_Shoes_1_Black.pz2", "MAT_Shoes_1_Brown.pz2"],
+      "hoodieMats": ["MAT_Hoodie_Black_1.pz2", "MAT_Hoodie_Black_2.pz2", "MAT_Hoodie_Blue_1.pz2", "MAT_Hoodie_Blue_2.pz2", "MAT_Hoodie_Brown_1.pz2", "MAT_Hoodie_Brown_2.pz2", "MAT_Hoodie_DkGrey_1.pz2", "MAT_Hoodie_DkGrey_2.pz2", "MAT_Hoodie_Green_1.pz2", "MAT_Hoodie_Green_2.pz2", "MAT_Hoodie_Grey_1.pz2", "MAT_Hoodie_Grey_2.pz2", "MAT_Hoodie_Red_1.pz2", "MAT_Hoodie_Red_2.pz2", "MAT_Hoodie_Sky_1.pz2", "MAT_Hoodie_Sky_2.pz2"],
+      "businessSuitMats": ["MAT_BSuit_Black.pz2", "MAT_BSuit_Blue.pz2", "MAT_BSuit_Brown.pz2", "MAT_BSuit_Grey.pz2"],
+      "namedFaceMorphs": ["Face_Alfonso", "Face_Antonio", "Face_Carlo", "Face_Dario", "Face_Dino", "Face_Enzio", "Face_Francesco", "Face_Frederico", "Face_Giorgio", "Face_Leonardo", "Face_Luigi", "Face_Paolo", "Face_Pietro", "Face_Roberto", "Face_Ruggerio", "Face_Vincenzo"],
+      "faceBlendRule": {
+        "select": 3,
+        "normalizeTotal": 1.0
+      }
+    }
   }
 }
