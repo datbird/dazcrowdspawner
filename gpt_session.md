@@ -8,6 +8,7 @@
 - **CrowdSpawnerLogic Version**: `alpha/v1/crowdspawnerlogic.dsa`
 - **CrowdSpawnerLogic Version**: `alpha/v1/lorenzo.json`
 - **CrowdSpawnerLogic Version**: `alpha/v1/loretta.json'
+- **CrowdSpawnerLogic Version**: `lorezspawntest.dsa'
 - **Repository**: [dazcrowdspawner GitHub](https://github.com/datbird/dazcrowdspawner)
 
 
@@ -15,8 +16,11 @@
 - Fetch `alpha/v5/crowdspawnerui.dsa`
 - Fetch `alpha/v1/crowdspawnerlogic.dsa`
 - Fetch `alpha/v1/surfaceDazFigtoImportedFig.dsa`
+- Fetch `alpha/v1/lorezspawntest.dsa`
+- Fetch `alpha/v1/lorenzo.json`
+- Fetch `alpha/v1/loretta.json'
 - Fetch `crowdspawnerdesignguide.md`
-- Fetch 'gpt_instructions.md'
+- Fetch `gpt_instructions.md`
 
 
 ## Current Script Version
