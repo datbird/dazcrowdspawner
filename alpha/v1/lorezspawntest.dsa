@@ -1,0 +1,89 @@
+(function () {
+    var jsonPath = "People/Lorez/Scripts/CrowdSpawner/lorenzo.json";
+    var file = new DzFile(jsonPath);
+
+    if (!file.open(DzFile.ReadOnly)) {
+        MessageBox.critical("Error", "Failed to open: " + jsonPath, "OK");
+        return;
+    }
+
+    var content = String(file.read());
+    file.close();
+
+    var jsonData = JSON.parse(content);
+    var lifestageKey = "adult";
+    var stageData = jsonData.lifestages[lifestageKey];
+
+    var contentMgr = App.getContentMgr();
+    var matPath = jsonData.materialPaths.clothes;
+    var skinPathTemplate = jsonData.materialPaths.skin;
+    var eyePath = jsonData.materialPaths.eyes;
+
+    var ancestryGroup = jsonData.ancestryGroups[Math.floor(Math.random() * jsonData.ancestryGroups.length)];
+    var ancestryMap = jsonData.ancestryGroupMapping;
+    var mappedAncestry = ancestryMap[ancestryGroup] || ancestryGroup;
+
+    var skinMatPath = skinPathTemplate.replace("{ancestryGroup}", mappedAncestry);
+
+    var tshirtMats = stageData.tshirtMats;
+    var sleeveMats = stageData.tshirtSleeveMats;
+    var jeansMats = stageData.jeansMats;
+    var trainersMats = stageData.trainersMats;
+    var skinFiles = stageData.skinFiles;
+    var eyeMats = stageData.eyeMats;
+    var ancestryHairMats = stageData.ancestryHairMats;
+    var hairMats = ancestryHairMats[ancestryGroup] || [];
+
+    var actorPath = jsonData.actorDirectory + "/T-Shirt.cr2";
+    if (!contentMgr.openFile(actorPath)) {
+        MessageBox.critical("Error", "Failed to load actor: " + actorPath, "OK");
+        return;
+    }
+
+    var node = Scene.findNodeByLabel("T-Shirt");
+    if (!node) {
+        MessageBox.critical("Error", "Could not find spawned T-Shirt node.", "OK");
+        return;
+    }
+
+    var x = node.getXPosControl(), y = node.getYPosControl(), z = node.getZPosControl();
+    if (x) x.setValue(Math.random() * 100);
+    if (y) y.setValue(Math.random() * 50);
+    if (z) z.setValue(Math.random() * 100);
+
+    Scene.selectAllNodes(false);
+    node.select(true);
+
+    // Apply skin
+    var skinMat = skinFiles[Math.floor(Math.random() * skinFiles.length)];
+    contentMgr.openFile(skinMatPath + skinMat);
+
+    // Apply eyes
+    var eyeMat = eyeMats[Math.floor(Math.random() * eyeMats.length)];
+    contentMgr.openFile(eyePath + eyeMat);
+
+    // Apply hair (90% chance)
+    if (Math.random() > 0.1 && hairMats.length > 0) {
+        var hairMat = hairMats[Math.floor(Math.random() * hairMats.length)];
+        contentMgr.openFile(skinMatPath + hairMat);
+        print("✅ Hair MAT applied: " + hairMat);
+    } else {
+        print("🔕 No hair MAT applied this time.");
+    }
+
+    // Apply clothing
+    var tshirtMat = tshirtMats[Math.floor(Math.random() * tshirtMats.length)];
+    contentMgr.openFile(matPath + tshirtMat);
+
+    var sleeveMat = sleeveMats[Math.floor(Math.random() * sleeveMats.length)];
+    Scene.selectAllNodes(false); node.select(true);
+    contentMgr.openFile(matPath + sleeveMat);
+
+    var jeansMat = jeansMats[Math.floor(Math.random() * jeansMats.length)];
+    contentMgr.openFile(matPath + jeansMat);
+
+    var trainersMat = trainersMats[Math.floor(Math.random() * trainersMats.length)];
+    contentMgr.openFile(matPath + trainersMat);
+
+    MessageBox.information("Done", "T-Shirt Lorenzo (" + lifestageKey + ") with ancestry: " + mappedAncestry, "OK");
+})();
