@@ -134,9 +134,11 @@ config.characters.feminine.actorFiles
 config.materialPaths.gender.masculine.skin
 config.materialPaths.gender.masculine.eyes
 config.materialPaths.gender.masculine.wardrobe
+config.materialPaths.gender.masculine.hair
 config.materialPaths.gender.feminine.skin
 config.materialPaths.gender.feminine.eyes
 config.materialPaths.gender.feminine.wardrobe
+config.materialPaths.gender.feminine.hair
 config.materialPaths.gender.feminine.hairProps
 ```
 
