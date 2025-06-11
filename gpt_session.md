@@ -125,8 +125,8 @@ config.ancestryGroupMapping
 
 ### Actor Files
 ```
-config.characters.masculine.actorFiles
-config.characters.feminine.actorFiles
+config.characters.masculine.Lorenzo.actorFiles
+config.characters.feminine.Loretta.actorFiles
 ```
 
 ### Material paths
@@ -410,21 +410,20 @@ function getSelectedFigure() {
 
 ** Function for loading a crowdfigure
 ```
-function spawnCrowdFigure(config, actorFile) {
-    var actorPath = config.actorDirectory + "/" + actorFile;
+function spawnCrowdFigure(charConfig, actorFile) {
+    var actorPath = charConfig.actorDirectory + "/" + actorFile;
     if (!App.getContentMgr().openFile(actorPath)) {
         MessageBox.critical("Spawn Error", "Failed to load actor: " + actorPath, "OK");
         return null;
     }
-
     var actor = Scene.getPrimarySelection();
     if (!actor || !actor.inherits("DzFigure")) {
         MessageBox.critical("Spawn Error", "Spawned node is not a valid figure.", "OK");
         return null;
     }
-
     return actor;
 }
+
 ```
 
 
