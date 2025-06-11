@@ -302,11 +302,40 @@ function loadCrowdSpawnerJson(relativePath) {
 function getSelectedFigure() {
     var node = Scene.getPrimarySelection();
     if (!node || !node.inherits("DzFigure")) {
-        MessageBox.critical("Selection Error", "Please select a figure to use.", "OK");
-        return null;
+        if (Scene.getNumNodes() > 0) {
+            node = Scene.getNode(0);
+            if (!node || !node.inherits("DzFigure")) {
+                MessageBox.critical("Selection Error", "Please select a figure to use.", "OK");
+                return null;
+            }
+        } else {
+            MessageBox.critical("Selection Error", "Scene is empty — no nodes to select.", "OK");
+            return null;
+        }
     }
     return node;
 }
 ```
+
+** Function for loading a crowdfigure
+```
+function spawnCrowdFigure(config, actorFile) {
+    var actorPath = config.actorDirectory + "/" + actorFile;
+    if (!App.getContentMgr().openFile(actorPath)) {
+        MessageBox.critical("Spawn Error", "Failed to load actor: " + actorPath, "OK");
+        return null;
+    }
+
+    var actor = Scene.getPrimarySelection();
+    if (!actor || !actor.inherits("DzFigure")) {
+        MessageBox.critical("Spawn Error", "Spawned node is not a valid figure.", "OK");
+        return null;
+    }
+
+    return actor;
+}
+```
+
+
 
 
