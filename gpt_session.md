@@ -111,7 +111,96 @@
 ### ✅ Equations for Procedural Morph Dependency:
 User mapped `LegsLength` as base morph to drive others:
 
+#### lowrez.json asset mappings
 
+### Ancestry Groups
+```
+config.ancestryGroups
+```
+
+### Ancestry Group Mappings
+```
+config.ancestryGroupMapping
+```
+
+### Actor Files
+```
+config.characters.masculine.actorFiles
+config.characters.feminine.actorFiles
+```
+
+### Material paths
+```
+config.materialPaths.gender.masculine.skin
+config.materialPaths.gender.masculine.eyes
+config.materialPaths.gender.masculine.wardrobe
+config.materialPaths.gender.feminine.skin
+config.materialPaths.gender.feminine.eyes
+config.materialPaths.gender.feminine.wardrobe
+config.materialPaths.gender.feminine.hairProps
+```
+
+### Styles
+```
+config.styles.gender.masculine.hair
+config.styles.gender.masculine.face
+config.styles.gender.masculine.body
+config.styles.gender.masculine.wardrobe
+config.styles.gender.masculine.faceBlends
+config.styles.gender.feminine.hair
+config.styles.gender.feminine.face
+config.styles.gender.feminine.body
+config.styles.gender.feminine.wardrobe
+config.styles.gender.feminine.faceBlends
+```
+
+### Masculine Materials
+```
+config.materials.gender.masculine.skinMats.Black
+config.materials.gender.masculine.skinMats.White
+config.materials.gender.masculine.skinMats.Indian
+config.materials.gender.masculine.skinMats.Latino
+config.materials.gender.masculine.skinMats.Asian
+config.materials.gender.masculine.eyeMats.Black
+config.materials.gender.masculine.eyeMats.White
+config.materials.gender.masculine.eyeMats.Indian
+config.materials.gender.masculine.eyeMats.Latino
+config.materials.gender.masculine.eyeMats.Asian
+config.materials.gender.masculine.hairMats.Black
+config.materials.gender.masculine.hairMats.White
+config.materials.gender.masculine.hairMats.Indian
+config.materials.gender.masculine.hairMats.Latino
+config.materials.gender.masculine.hairMats.Asian
+config.materials.gender.masculine.wardrobe.tops
+config.materials.gender.masculine.wardrobe.bottoms
+config.materials.gender.masculine.wardrobe.footwear
+config.materials.gender.masculine.wardrobe.suits
+config.materials.gender.masculine.wardrobe.accessories
+```
+
+### Feminine Materials
+```
+config.materials.gender.feminine.skinMats.Black
+config.materials.gender.feminine.skinMats.White
+config.materials.gender.feminine.skinMats.Indian
+config.materials.gender.feminine.skinMats.Latino
+config.materials.gender.feminine.skinMats.Asian
+config.materials.gender.feminine.eyeMats.Black
+config.materials.gender.feminine.eyeMats.White
+config.materials.gender.feminine.eyeMats.Indian
+config.materials.gender.feminine.eyeMats.Latino
+config.materials.gender.feminine.eyeMats.Asian
+config.materials.gender.feminine.hairMats.Black
+config.materials.gender.feminine.hairMats.White
+config.materials.gender.feminine.hairMats.Indian
+config.materials.gender.feminine.hairMats.Latino
+config.materials.gender.feminine.hairMats.Asian
+config.materials.gender.feminine.wardrobe.tops
+config.materials.gender.feminine.wardrobe.bottoms
+config.materials.gender.feminine.wardrobe.footwear
+config.materials.gender.feminine.wardrobe.coats
+config.materials.gender.feminine.wardrobe.stockings
+```
 
 #### Forward Mappings:
 ```javascript
