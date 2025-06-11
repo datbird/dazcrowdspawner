@@ -270,3 +270,32 @@ btnOK.clicked.connect(function() {
 testDialog.setAcceptButton(btnOK);
 testDialog.exec();
 ```
+
+
+** Reusable JSON file loading function for JSON Parsing
+```
+// [Reusable function to load and parse JSON via DAZ-native method]
+function loadCrowdSpawnerJson(relativePath) {
+    var cm = App.getContentMgr();
+    var jsonPath = cm.findFile(relativePath);
+    if (!jsonPath) {
+        print("[ERROR] Could not resolve path: " + relativePath);
+        return null;
+    }
+    var file = new DzFile(jsonPath);
+    if (!file.open(DzFile.ReadOnly)) {
+        MessageBox.critical("Error", "Failed to open: " + jsonPath, "OK");
+        return null;
+    }
+    var raw = String(file.read());
+    file.close();
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        print("[ERROR] JSON parse error in " + relativePath + ": " + e);
+        return null;
+    }
+}
+```
+
+
