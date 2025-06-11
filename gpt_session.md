@@ -297,5 +297,16 @@ function loadCrowdSpawnerJson(relativePath) {
     }
 }
 ```
+** Function for selecting a figure in the scene
+```
+function getSelectedFigure() {
+    var node = Scene.getPrimarySelection();
+    if (!node || !node.inherits("DzFigure")) {
+        MessageBox.critical("Selection Error", "Please select a figure to use.", "OK");
+        return null;
+    }
+    return node;
+}
+```
 
 
