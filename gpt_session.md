@@ -1,14 +1,13 @@
 # GPT Session File
 
 ## Session Metadata
-- **Session Date**: 2025-06-10
+- **Session Date**: 2025-06-11
 - **DAZ Studio Version**: 4.24
 - **Active Folder**: `/alpha/`
 - **CrowdSpawnerUI Version**: `alpha/v5/crowdspawnerui.dsa`
 - **CrowdSpawnerLogic Version**: `alpha/v1/crowdspawnerlogic.dsa`
-- **CrowdSpawnerLogic Version**: `alpha/v1/lorenzo.json`
-- **CrowdSpawnerLogic Version**: `alpha/v1/loretta.json'
-- **CrowdSpawnerLogic Version**: `lorezspawntest.dsa'
+- **dynamiccharacter spwan tester using lorez assets **: `alpha/v1/lowrez.json`
+- **dynamiccharacter spwan tester using lorez assets **' `alpha/v1/lorezspawntest.dsa`
 - **Repository**: [dazcrowdspawner GitHub](https://github.com/datbird/dazcrowdspawner)
 
 
@@ -17,8 +16,7 @@
 - Fetch `alpha/v1/crowdspawnerlogic.dsa`
 - Fetch `alpha/v1/surfaceDazFigtoImportedFig.dsa`
 - Fetch `alpha/v1/lorezspawntest.dsa`
-- Fetch `alpha/v1/lorenzo.json`
-- Fetch `alpha/v1/loretta.json'
+- Fetch `alpha/v1/lowrez.json`
 - Fetch `crowdspawnerdesignguide.md`
 - Fetch `gpt_instructions.md`
 
@@ -27,6 +25,8 @@
 - Current Version Locked: alpha/v5/crowdspawnerui.dsa
 - Current Version Locked: alpha/v1/crowdspawnerlogic.dsa
 - Current Version Locked: alpha/v1/surfaceDazFigtoImportedFig.dsa
+- Current Version Locked: alpha/v1/lowrez.json
+- Current Version Locked: alpha/v1/lorezspawntest.dsa
 
 
 ## Canonical Files
@@ -38,6 +38,8 @@
 ## Sync Behavior
 - Treat `alpha/v5/crowdspawnerui.dsa` as the current editable UI script
 - Treat `alpha/v1/crowdspawnerlogic.dsa` as the current editable logic script
+- Treat `alpha/v1/lorezspawntest.dsa` as the current editable dynamic character test script
+- Treat `alpha/v1/lowrez.json` as the current editable lowrez asset information repository
 - Use `crowdspawnerdesignguide.md` as the definitive source for layout, field order, descriptions, and sectioning
 - Enforce all assistant constraints and behaviors from `gpt_instructions.md`
 - Recognize all versions in `/alpha`, `/beta`, and `/release`, and ask the user for clarification when ambiguity or updates are detected
@@ -45,20 +47,23 @@
 ## Active JSON Config
 
 **File Path:**  
-`People/Lorez/Scripts/CrowdSpawner/lorenzo.json`
-`People/Lorez/Scripts/CrowdSpawner/loretta.json`
+`People/Lorez/Scripts/CrowdSpawner/lowrez.json`
 
-**Golden Configuration (Lorenzo):**
-- `character`: "Lorenzo"
-- `actorDirectory`: "Runtime/Libraries/Character/P3DA_LorenzoLorez"
-- `materialPaths`: Defines paths for `skin`, `eyes`, and `clothes` materials
-- `ancestryGroups`: ["Black", "White", "Indian", "Latino", "Asian"]
-- `ancestryGroupMapping`: "White" → "Caucasian", "Black" → "African", "Asian" → "Oriental"
-- `lifestages.adult`: Contains full baseActors, material lists, eye mats,
+## JSON Configuration:
+- lowrez.json – Latest golden version uploaded (verified and fixed for structure).
+  - Top-level keys: ancestryGroups, ancestryGroupMapping, characters, materialPaths, styles, faceBlends, materials
+  - Structured with gender → masculine/feminine branches for skin, eyes, clothes
+  - Supports {ancestryGroup} substitution and weighted material selection
 
-**Golden Configuration (Lorenzo):**
-- `character`: "Loretta"
-- `actorDirectory`: "\Runtime\Libraries\Character\P3DA_LorettaLorez"
+
+## lorezspawntest DAZ Script (Working Test):
+
+- Lowrez Spawner Test – Canvas script
+  - Resolves ancestry and mapped ancestry
+  - Weighted actor and skin selection
+  - Material application with valid file resolution
+  - Awaiting hair and full clothing logic integration
+
 
 
 ## Notes
@@ -91,6 +96,9 @@
 - Next lifestage expansion (e.g., child/teen/elder) will follow the `lifestages` structure
 - HairStyle mapping and style-based logic are queued as future enhancements
 - No global changes outside the `"adult"` block in current testing
+- Rejected manual patching of path/logic to enforce correct parsing from lowrez.json
+- Refused JSON structure assumptions—migrated logic to dynamically traverse gender-specific and ancestry-specific materials
+- Deferred expansion of material logic (clothing, hair, eye) until confirmed working
 
 ### ✅ LoRez / LowREZ Figure Support
 - Verified `Lorenzo` and `Loretta` support DAZ native morphs and `.pz2` injection via the full version (not “Blank”)
