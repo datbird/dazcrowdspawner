@@ -272,7 +272,7 @@ testDialog.exec();
 ```
 
 
-** Reusable JSON file loading function for JSON Parsing
+** Reusable JSON file loading function for Parsing
 ```
 // [Reusable function to load and parse JSON via DAZ-native method]
 function loadCrowdSpawnerJson(relativePath) {
