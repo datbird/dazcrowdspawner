@@ -410,18 +410,40 @@ function getSelectedFigure() {
 
 ** Function for loading a crowdfigure
 ```
+// [Improved actor spawner using node diffing]
 function spawnCrowdFigure(charConfig, actorFile) {
+    var before = [];
+    for (var i = 0; i < Scene.getNumNodes(); i++) {
+        before.push(Scene.getNode(i));
+    }
+
     var actorPath = charConfig.actorDirectory + "/" + actorFile;
     if (!App.getContentMgr().openFile(actorPath)) {
         MessageBox.critical("Spawn Error", "Failed to load actor: " + actorPath, "OK");
         return null;
     }
-    var actor = Scene.getPrimarySelection();
-    if (!actor || !actor.inherits("DzFigure")) {
+
+    var after = [];
+    for (var j = 0; j < Scene.getNumNodes(); j++) {
+        after.push(Scene.getNode(j));
+    }
+
+    var newFigure = null;
+    for (var k = 0; k < after.length; k++) {
+        if (before.indexOf(after[k]) === -1 && after[k].inherits("DzFigure")) {
+            newFigure = after[k];
+            break;
+        }
+    }
+
+    if (!newFigure) {
         MessageBox.critical("Spawn Error", "Spawned node is not a valid figure.", "OK");
         return null;
     }
-    return actor;
+
+    Scene.selectAllNodes(false);
+    newFigure.select(true);
+    return getSelectedFigure();
 }
 
 ```
