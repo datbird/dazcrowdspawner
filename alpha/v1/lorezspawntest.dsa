@@ -1,89 +1,198 @@
-(function () {
-    var jsonPath = "People/Lorez/Scripts/CrowdSpawner/lorenzo.json";
+// [Use canonical file loader for JSON config]
+function loadCrowdSpawnerJson(relativePath) {
+    var cm = App.getContentMgr();
+    var jsonPath = cm.findFile(relativePath);
+    if (!jsonPath) {
+        print("[ERROR] Could not resolve path: " + relativePath);
+        return null;
+    }
     var file = new DzFile(jsonPath);
-
     if (!file.open(DzFile.ReadOnly)) {
         MessageBox.critical("Error", "Failed to open: " + jsonPath, "OK");
-        return;
+        return null;
     }
-
-    var content = String(file.read());
+    var raw = String(file.read());
     file.close();
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        print("[ERROR] JSON parse error in " + relativePath + ": " + e);
+        return null;
+    }
+}
 
-    var jsonData = JSON.parse(content);
-    var lifestageKey = "adult";
-    var stageData = jsonData.lifestages[lifestageKey];
+// [Reusable selection function]
+function getSelectedFigure() {
+    var node = Scene.getPrimarySelection();
+    if (!node || !node.inherits("DzFigure")) {
+        if (Scene.getNumNodes() > 0) {
+            node = Scene.getNode(0);
+            if (!node || !node.inherits("DzFigure")) {
+                MessageBox.critical("Selection Error", "Please select a figure to use.", "OK");
+                return null;
+            }
+        } else {
+            MessageBox.critical("Selection Error", "Scene is empty — no nodes to select.", "OK");
+            return null;
+        }
+    }
+    return node;
+}
 
-    var contentMgr = App.getContentMgr();
-    var matPath = jsonData.materialPaths.clothes;
-    var skinPathTemplate = jsonData.materialPaths.skin;
-    var eyePath = jsonData.materialPaths.eyes;
-
-    var ancestryGroup = jsonData.ancestryGroups[Math.floor(Math.random() * jsonData.ancestryGroups.length)];
-    var ancestryMap = jsonData.ancestryGroupMapping;
-    var mappedAncestry = ancestryMap[ancestryGroup] || ancestryGroup;
-
-    var skinMatPath = skinPathTemplate.replace("{ancestryGroup}", mappedAncestry);
-
-    var tshirtMats = stageData.tshirtMats;
-    var sleeveMats = stageData.tshirtSleeveMats;
-    var jeansMats = stageData.jeansMats;
-    var trainersMats = stageData.trainersMats;
-    var skinFiles = stageData.skinFiles;
-    var eyeMats = stageData.eyeMats;
-    var ancestryHairMats = stageData.ancestryHairMats;
-    var hairMats = ancestryHairMats[ancestryGroup] || [];
-
-    var actorPath = jsonData.actorDirectory + "/T-Shirt.cr2";
-    if (!contentMgr.openFile(actorPath)) {
-        MessageBox.critical("Error", "Failed to load actor: " + actorPath, "OK");
-        return;
+// [Improved actor spawner using node diffing only]
+function spawnCrowdFigure(charConfig, actorFile) {
+    var before = [];
+    for (var i = 0; i < Scene.getNumNodes(); i++) {
+        before.push(Scene.getNode(i));
     }
 
-    var node = Scene.findNodeByLabel("T-Shirt");
-    if (!node) {
-        MessageBox.critical("Error", "Could not find spawned T-Shirt node.", "OK");
-        return;
+    var actorPath = charConfig.actorDirectory + "/" + actorFile;
+    if (!App.getContentMgr().openFile(actorPath)) {
+        MessageBox.critical("Spawn Error", "Failed to load actor: " + actorPath, "OK");
+        return null;
     }
 
-    var x = node.getXPosControl(), y = node.getYPosControl(), z = node.getZPosControl();
-    if (x) x.setValue(Math.random() * 100);
-    if (y) y.setValue(Math.random() * 50);
-    if (z) z.setValue(Math.random() * 100);
+    var after = [];
+    for (var j = 0; j < Scene.getNumNodes(); j++) {
+        after.push(Scene.getNode(j));
+    }
+
+    var newFigure = null;
+    for (var k = 0; k < after.length; k++) {
+        if (before.indexOf(after[k]) === -1) {
+            print("[Diff Check] Found new node: " + after[k].getLabel());
+            if (after[k].inherits("DzFigure") || after[k].inherits("DzLegacyFigure")) {
+                newFigure = after[k];
+                break;
+            } else {
+                print("[Diff Check] Node is NOT a DzFigure: " + after[k].className());
+            }
+        }
+    }
+
+    if (!newFigure) {
+        MessageBox.critical("Spawn Error", "Spawned node is not a valid figure.", "OK");
+        return null;
+    }
 
     Scene.selectAllNodes(false);
-    node.select(true);
+    newFigure.select(true);
+    Scene.setPrimarySelection(newFigure);  // Ensure material application affects the full body
+    return newFigure;
+}
 
-    // Apply skin
-    var skinMat = skinFiles[Math.floor(Math.random() * skinFiles.length)];
-    contentMgr.openFile(skinMatPath + skinMat);
+function resolveMaterialPath(baseMap, ancestryGroup) {
+    for (var key in baseMap) {
+        if (key.indexOf("{ancestryGroup}") !== -1) {
+            return key.replace("{ancestryGroup}", ancestryGroup.charAt(0).toUpperCase() + ancestryGroup.slice(1).toLowerCase());
+        }
+    }
+    return null;
+}
 
-    // Apply eyes
-    var eyeMat = eyeMats[Math.floor(Math.random() * eyeMats.length)];
-    contentMgr.openFile(eyePath + eyeMat);
+function resolveMappedAncestry(config, ancestryGroupRaw) {
+    var mapping = config.ancestryGroupMapping || {};
+    return mapping[ancestryGroupRaw] || ancestryGroupRaw;
+}
 
-    // Apply hair (90% chance)
-    if (Math.random() > 0.1 && hairMats.length > 0) {
-        var hairMat = hairMats[Math.floor(Math.random() * hairMats.length)];
-        contentMgr.openFile(skinMatPath + hairMat);
-        print("✅ Hair MAT applied: " + hairMat);
-    } else {
-        print("🔕 No hair MAT applied this time.");
+(function() {
+    var config = loadCrowdSpawnerJson("People/Lorez/Scripts/CrowdSpawner/lowrez.json");
+    if (!config) {
+        print("[ERROR] Config not loaded — terminating script.");
+        return;
     }
 
-    // Apply clothing
-    var tshirtMat = tshirtMats[Math.floor(Math.random() * tshirtMats.length)];
-    contentMgr.openFile(matPath + tshirtMat);
+    var gender = "masculine";
+    print("[DEBUG] config.ancestryGroups = " + JSON.stringify(config.ancestryGroups));
+    var ancestryGroupRaw;
+    var ancestryKeys = Object.keys(config.ancestryGroups);
+    if (ancestryKeys.length === 0) {
+        print("[ERROR] ancestryGroups missing or empty — defaulting to 'White'");
+        ancestryGroupRaw = "White";
+    } else {
+        ancestryGroupRaw = ancestryKeys[Math.floor(Math.random() * ancestryKeys.length)];
+    }
 
-    var sleeveMat = sleeveMats[Math.floor(Math.random() * sleeveMats.length)];
-    Scene.selectAllNodes(false); node.select(true);
-    contentMgr.openFile(matPath + sleeveMat);
+    print("[Ancestry Raw] Picked ancestryGroupRaw: " + ancestryGroupRaw);
+    var ancestryGroup = resolveMappedAncestry(config, ancestryGroupRaw);
+    print("[Ancestry Resolved] Final ancestryGroup: " + ancestryGroup);
 
-    var jeansMat = jeansMats[Math.floor(Math.random() * jeansMats.length)];
-    contentMgr.openFile(matPath + jeansMat);
+    var charKeys = Object.keys(config.characters[gender]);
+    var chosenChar = charKeys[Math.floor(Math.random() * charKeys.length)];
+    var charConfig = config.characters[gender][chosenChar];
+    var actorKeys = Object.keys(charConfig.actorFiles);
+    var actorFile = actorKeys[Math.floor(Math.random() * actorKeys.length)];
+    print("[ActorFile] config.characters." + gender + "." + chosenChar + ".actorFiles => " + actorFile);
 
-    var trainersMat = trainersMats[Math.floor(Math.random() * trainersMats.length)];
-    contentMgr.openFile(matPath + trainersMat);
+    var figure = spawnCrowdFigure(charConfig, actorFile);
+    if (!figure) return;
 
-    MessageBox.information("Done", "T-Shirt Lorenzo (" + lifestageKey + ") with ancestry: " + mappedAncestry, "OK");
+    var hairStyles = config.styles.gender[gender].hair;
+    var matchedHairStyles = [];
+    for (var style in hairStyles) {
+        var entry = hairStyles[style];
+        var propText = entry.hasOwnProperty("hairProp") ? entry.hairProp : "<none>";
+        print("[HairStyle] config.styles.gender." + gender + ".hair." + style + " => hairProp: " + propText + ", ancestryGroup: " + entry.ancestryGroup);
+        if (entry.ancestryGroup === ancestryGroup || entry.ancestryGroup === "ALL") {
+            matchedHairStyles.push({ name: style, data: entry });
+        }
+    }
+    print("[HairStyle Match] Found " + matchedHairStyles.length + " applicable styles for ancestry: " + ancestryGroup);
+
+    if (matchedHairStyles.length === 0) return;
+
+    var selectedStyle = matchedHairStyles[Math.floor(Math.random() * matchedHairStyles.length)];
+    var selectedStyleName = selectedStyle.name;
+    print("[Selected Style] " + selectedStyleName);
+
+    var ancestryMatsMap = config.materials.gender[gender].hairMats[ancestryGroupRaw] || {};
+    var globalMatsMap = config.materials.gender[gender].hairMats["ALL"] || {};
+    var hairMats = {};
+    for (var key in ancestryMatsMap) hairMats[key] = ancestryMatsMap[key];
+    for (var key in globalMatsMap) hairMats[key] = globalMatsMap[key];
+
+    var taggedMats = [];
+    for (var file in hairMats) {
+        var mat = hairMats[file];
+        var styles = mat.style;
+        if (!styles || styles.length === 0 || styles.indexOf("ALL") !== -1 || styles.indexOf(selectedStyleName) !== -1) {
+            taggedMats.push({ file: file, weight: mat.weight || 1, style: styles });
+        }
+    }
+
+    if (taggedMats.length > 0) {
+        var index = Math.floor(Math.random() * taggedMats.length);
+        var matFile = taggedMats[index].file;
+
+        var hairMatPathBase;
+        if ((taggedMats[index].style || []).indexOf("ALL") !== -1) {
+            var skinBaseMap = config.materialPaths.gender[gender].skin;
+            hairMatPathBase = resolveMaterialPath(skinBaseMap, ancestryGroup);
+        } else {
+            var hairBaseMap = config.materialPaths.gender[gender].hair;
+            hairMatPathBase = resolveMaterialPath(hairBaseMap, ancestryGroup);
+        }
+
+        print("[Hair Material Path Base] Final => " + hairMatPathBase);
+
+        if (hairMatPathBase) {
+            Scene.selectAllNodes(false);
+            figure.select(true);
+            Scene.setPrimarySelection(figure);
+            App.getContentMgr().openFile(hairMatPathBase + matFile);
+            print("[HairMat] Applied hair material: " + hairMatPathBase + matFile);
+        } else {
+            print("[HairMat] No valid pathBase available to apply material: " + matFile);
+        }
+    } else {
+        print("[HairMat] No hair mats tagged for style: " + selectedStyleName);
+    }
+
+    var hairPropPath = config.materialPaths.gender[gender].hairProps || null;
+    if (selectedStyle.data.hairProp && hairPropPath) {
+        App.getContentMgr().openFile(hairPropPath + selectedStyle.data.hairProp);
+        print("[HairProp] Applied hair prop: " + hairPropPath + selectedStyle.data.hairProp);
+    } else {
+        print("[HairProp] Skipped: no hairProp defined in style or path missing");
+    }
 })();
