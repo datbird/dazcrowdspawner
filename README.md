@@ -50,3 +50,19 @@ This repo is not open to public contributions to ensure the integrity of locked 
 
 ## Status
 Actively maintained by the original author. Locked components are stable unless explicitly versioned.
+
+### 📘 Function Reference: `cspawnfunctions.dsa`
+
+| Function Name                  | Description                                                                 |
+|-------------------------------|-----------------------------------------------------------------------------|
+| `readFileToString(path)`      | Reads a file from disk and returns its full contents as a string.          |
+| `loadCrowdSpawnerJson(path)`  | Loads and parses the crowd spawner JSON config file.                       |
+| `getNodeByLabel(label)`       | Finds and returns a scene node with a specific label.                      |
+| `applySkinToFigureByLabel(label, path)` | Applies a skin material preset to the figure with the given label.       |
+| `applyHairToFigureByLabel(label, path)` | Applies a hair material preset to the figure with the given label.       |
+| `randomFromArray(array)`      | Returns a random element from an array.                                    |
+| `weightedRandomGroup(obj)`    | Selects a random key from a dictionary-style object (used for style groups).|
+| `getHighestSpawnIndex(prefix)`| Returns the highest numeric index of figures with the given label prefix.  |
+| `spawnCrowdFigure(charConfig, actorFile, spawnIndex)` | Spawns a figure, finds the newly added node, sets its label, and selects it. |
+
+
